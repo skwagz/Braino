@@ -4,8 +4,20 @@
   "type": "module",
   "scripts": {
     "test": "node --test test/*.test.ts",
+    "typecheck": "tsc",
     "demo": "node examples/demo.ts",
-    "structure": "node examples/structure.ts"
+    "structure": "node examples/structure.ts",
+    "organize": "node --use-system-ca --env-file-if-exists=.env src/cli.ts",
+    "auth": "node --use-system-ca --env-file-if-exists=.env src/auth/cli.ts"
   },
-  "engines": { "node": ">=24" }
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "google-auth-library": "^11.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "typescript": "^7.0.2"
+  }
 }

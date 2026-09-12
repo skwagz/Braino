@@ -1,5 +1,67 @@
 # Braino scanning and sorting core
 
+## Run against Google Drive
+
+Node 24+ is required. Follow the [Google login setup](docs/google-login.md) to
+create your OAuth client, run `npm run auth -- init`, fill in the client settings
+locally, then run `npm run auth -- login`. Open the printed link and approve
+access on Google's page. No manual access-token copying is needed. Connecting
+Google Drive to Codex does not authenticate this separate application.
+
+```sh
+npm run organize -- preview YOUR_FOLDER_ID first-preview.json
+npm run organize -- apply first-preview.json
+```
+
+`preview` reads documents and writes `private-data/first-preview.json`. It prints
+category assignments and proposed operations. Inspect that file before using
+`apply`, which creates category folders and **moves the original documents**.
+Unclear documents stay in place. Use a test folder for the first live run.
+
+The default scan cap is 30 supported files. Incomplete scans (including empty or
+unreadable documents) block apply. No files are silently dropped to force a run
+through. Choose a smaller test folder or resolve the reported source issues.
+
+Preview filenames cannot overwrite an existing preview; use a new name for a new
+scan. The saved Google login refreshes access tokens automatically. Access tokens
+are never written to reports or passed as CLI arguments. `npm run auth -- logout`
+revokes access and removes the local login.
+
+Reading existing files requires appropriate read access. Moving originals needs
+write access to those specific files: `drive.readonly` alone cannot move them,
+and `drive.file` covers only files authorized to the app. Choosing a folder is
+not a blanket grant to modify every existing descendant. See Google's
+[scope definitions](https://developers.google.com/workspace/drive/api/guides/api-specific-auth).
+The reader uses the Sheets API for all grid worksheets; Docs use Drive text export.
+Images and embedded objects are not OCR'd, and full fidelity of multi-tab Docs
+is not guaranteed by this text-export adapter.
+
+The CLI stores journals and previews in ignored `private-data/`. A local lock
+prevents two applies for the same folder from this checkout. If the process
+crashes, check the journal and Drive state before removing its stale `.lock`
+file, then generate a fresh preview. There is no automatic rollback. Do not run
+multiple checkouts or hosts against the same folder concurrently.
+
+## Content-based folder structuring
+
+Run `npm run structure` for a demo: an untitled homework document goes to School,
+a misleadingly named document containing meeting minutes goes to Meetings, and
+unclear content stays in a review list. This prints a preview and does not change Drive.
+
+Run `npm run structure -- <connector-snapshot.json>` to classify real retrieved
+text in the snapshot format below. A snapshot provides classification only; live
+parent metadata is required before planning real moves. Output can contain source
+excerpts, so keep saved results private.
+
+`structureFolder({ folderId, drive, classify? })` in `src/structure.ts` returns
+folder assignments, evidence, review items and scan errors. `planStructure(report,
+{ sourceFolderId, folders, parents })` creates a folder/move preview with current
+parent checks and rerun deduplication. The default classifier uses conservative
+English content keywords; supply a `Classifier` adapter for an LLM.
+
+See [architecture and integration contracts](docs/architecture.md). The structuring
+module only plans changes; `organize apply` executes them through the Drive adapter.
+
 A dependency-free TypeScript core, runnable on Node 24+. It scans a selected
 folder, sends Docs/Sheets text to an injected extractor, groups the returned
 topics/entities, preserves citations, and produces a write plan. It never moves
@@ -48,7 +110,11 @@ in the UI before publishing. Folder-limit exhaustion means some descendants have
 not been enumerated. Listing is fully paginated by the adapter, so the file cap
 limits extraction work, not listing API calls.
 
-No OAuth, Drive API calls, LLM provider, persistence, or UI is implemented here.
+The application has a Drive API adapter, explicit apply workflow, local journal
+and single-account Google login/refresh. A hosted multi-user service, LLM provider
+and extension UI remain separate integrations. Classification still uses English
+keyword rules, not an LLM. OAuth uses the official Google authentication library;
+the scanning and planning core remains dependency-free.
 
 ## Connector-backed scanner smoke test
 
