@@ -23,7 +23,7 @@ LLM adapter; it will not silently fall back to keyword rules. Selected document
 content is sent to OpenAI, and usage charges may apply.
 
 - [Architecture](docs/architecture.md)
-- `npm test` and `npm run typecheck`: application and security checks.
+- `npm run typecheck`: TypeScript checks. Automated test files have been removed.
 - `npm run evaluate`: honest offline classification baseline (7/10 on the included
   challenging corpus). `npm run evaluate -- --llm` explicitly runs a paid live
   evaluation with synthetic data once a key is configured.
@@ -101,7 +101,7 @@ folder, sends Docs/Sheets text to an injected extractor, groups the returned
 topics/entities, preserves citations, and produces a write plan. It never moves
 or modifies original files.
 
-Run `npm test` and `npm run demo`. The demo uses fixtures, not live Drive or AI.
+Run `npm run typecheck` and `npm run demo`. The demo uses fixtures, not live Drive or AI.
 
 ## Connect your components
 

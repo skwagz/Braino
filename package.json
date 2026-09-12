@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node --use-system-ca --env-file-if-exists=.env src/server.ts",
     "evaluate": "node --use-system-ca --env-file-if-exists=.env examples/evaluate-classifier.ts",
-    "test": "node --test test/*.test.ts",
     "typecheck": "tsc",
     "demo": "node examples/demo.ts",
     "structure": "node examples/structure.ts",

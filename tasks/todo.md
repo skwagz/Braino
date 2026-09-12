@@ -1,5 +1,11 @@
 # 2026-09-12 Backend integration — corrected scope
 
+## User-requested test removal
+
+- [x] Remove all seven backend test files and the obsolete npm test command.
+- [x] Remove the test directory from TypeScript inputs and update README commands.
+- [x] TypeScript and diff formatting pass. Earlier test results below are historical.
+
 The user clarified that the existing GitHub UI must be reused and this task is
 backend-only. The earlier build checklist below is historical, not evidence that
 the existing React dashboard is integrated.
