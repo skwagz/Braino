@@ -1,5 +1,7 @@
 # Braino
 
+Project context: [product brief](HANDOFF.md), [feasibility research and validation plan](FEASIBILITY.md), and [shared agent instructions](AGENTS.md). Read the research status update before relying on its dated implementation audit.
+
 Read documents, review their categories, and organize a selected Drive folder.
 
 ## Run the backend

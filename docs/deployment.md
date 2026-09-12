@@ -49,6 +49,10 @@ Registered callback URIs must exactly match the callback the app sends; see
 
 ## Container
 
+The Docker files are optional local deployment scaffolding and are not included
+in this backend push. The following commands apply only if that scaffolding is
+added separately; use `npm start` for the checked-in backend.
+
 With Docker Engine running:
 
 ```sh

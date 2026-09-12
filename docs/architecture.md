@@ -12,7 +12,7 @@ the existing React dashboard on codex/ui-dashboard remains pending.
 Implemented: Google OAuth login/refresh/logout, encrypted token storage, Drive
 and Sheets readers, semantic LLM adapter, offline demo rules, folder planning,
 verified moves, persistent sessions/runs/events and isolated account token files.
-Docker packaging is included for a single persistent backend server; cited
+Optional Docker packaging remains local and is excluded from this backend push; cited
 workspace chat is not implemented.
 Live external validation and actual hosting remain pending user credentials and
 a deployment environment.
