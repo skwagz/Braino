@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Braino — Organize your Drive",
+  "version": "0.1.0",
+  "description": "Open your Braino workspace in a full tab to connect Google Drive, review file organization, and search your index.",
+  "action": { "default_title": "Open Braino" },
+  "background": { "service_worker": "background.js", "type": "module" }
+}

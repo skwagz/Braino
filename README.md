@@ -4,9 +4,9 @@ Braino reads a selected Google Drive folder, uses an LLM to suggest document
 categories, and lets you review names and destinations before applying changes.
 Its Knowledge wiki is a searchable file index showing where each file is located.
 
-This branch includes the React dashboard and backend. The planned entry point is
+This branch includes the React dashboard and backend. The entry point is
 a Chrome extension: users sign in with Google, approve Drive access, and use
-Braino. The native Drive add-on idea was dropped. The extension is not built yet.
+Braino. The native Drive add-on idea was dropped. The installable extension is in `apps/extension`; see its README for Chrome setup.
 Google OAuth credentials and the OpenRouter key are configured once by the app
 operator on the backend; end users do not enter API keys or OAuth client secrets.
 
@@ -136,10 +136,12 @@ Descriptions are classification explanations, not full document summaries.
 
 ## Chrome extension direction
 
-The extension will open Braino from Drive and launch the backend's Google sign-in
-flow. Users choose their account and approve access. Existing authentication and
-file operations can be reused, but the extension launcher and its sign-in handoff
-still need implementation and live testing. No Workspace add-on is planned.
+The extension opens the existing dashboard in a full browser tab. Users select
+Connect Google Drive, choose their account, and approve access; the backend's
+OAuth callback returns to the workspace. Install it with Chrome's Load unpacked
+button by selecting `apps/extension`. See [extension setup](apps/extension/README.md).
+The backend must be running. Live Google sign-in still requires configured
+credentials and live testing. No Workspace add-on is planned.
 
 ## Verification and current limits
 
