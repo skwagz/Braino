@@ -11,6 +11,34 @@ Hackathon project (AI Tinkerers Valencia). This is a from-scratch brief for cont
 
 Keep every scope decision below traceable back to one of these four.
 
+## Accepted delivery direction (2026-09-12)
+
+Ship Braino as a web app and Chrome extension. The web landing page is the front
+door for Google Drive connection and opening the working dashboard. A Google
+Workspace Marketplace add-on is not the current distribution plan. Reuse the
+existing React dashboard and backend; the extension will be another entry point
+to the same service. Extension implementation/store publication is a follow-up.
+Keep sample exploration explicit and separate from an authenticated Drive session.
+The landing page must not imply wiki publication or a published extension exists
+before those integrations are complete. This decision supersedes the historical
+extension-only interface and extension-managed authentication described below.
+
+## Wiki implementation priority
+
+Accepted priority (2026-09-12): one selected folder -> source-backed wiki ->
+validation -> published Google Docs -> rerun without duplicates. Keep the current
+dashboard shell; defer additional UI, specialist agents, and folder-moving work
+while this workflow is completed. The older extension-first build order below is
+historical context, not the immediate implementation priority.
+
+Build evidence-backed extraction and deterministic page rendering first, then
+connect an AI provider and a durable Google Docs publisher. Track source hashes,
+generation versions and stable page identities. An unchanged run should produce
+no writes; incomplete or invalid scans must not replace the last valid wiki.
+Validate source references and links mechanically, while treating semantic
+accuracy as a separate evaluation requirement. Publishing must protect source
+permissions and human edits, and reconcile interrupted writes before retrying.
+
 ## The idea
 
 An agent that installs into a workspace the user already has — their Google Drive — connects to the data that's already there, and turns an unstructured pile of Docs/Sheets into a **connected, navigable knowledge base**: an index page plus linked entity/topic pages, written back natively into Drive (real Docs, real hyperlinks between them). One button triggers the whole run. The output then doubles as a context base other AI tools can use.

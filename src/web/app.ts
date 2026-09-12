@@ -1,7 +1,8 @@
 import { createServer } from 'node:http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { mkdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { mkdir, readFile, realpath } from 'node:fs/promises';
+import { join, resolve, relative, extname, isAbsolute } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Repository, secret, digest } from './database.ts';
 import type { Run } from './database.ts';
 import { demoDrive } from './demo.ts';
@@ -103,12 +104,32 @@ export async function createWebApp(config: WebConfig, dependencies: {
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'no-referrer');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
     try {
       if (req.headers.host !== origin.host) throw new HttpError(403, 'Unexpected host');
       const url = new URL(req.url ?? '/', origin);
       if (url.origin !== origin.origin) throw new HttpError(403, 'Unexpected origin');
       if (url.pathname === '/health' && req.method === 'GET') { json(res, 200, { status: 'ok' }); return; }
+      if (req.method === 'GET' && (['/', '/app', '/app/', '/wiki-demo.json'].includes(url.pathname) || url.pathname.startsWith('/assets/'))) {
+        const root = fileURLToPath(new URL('../../apps/dashboard/dist/', import.meta.url));
+        let asset: string;
+        try { asset = decodeURIComponent(url.pathname); } catch { throw new HttpError(400, 'Invalid asset path'); }
+        const filename = ['/', '/app', '/app/'].includes(asset) ? 'index.html' : asset.slice(1);
+        try {
+          const rootPath = await realpath(root);
+          const file = await realpath(resolve(root, filename));
+          const within = relative(rootPath, file);
+          if (within.startsWith('..') || isAbsolute(within)) throw new HttpError(404, 'Not found');
+          const contentTypes: Record<string, string> = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2' };
+          const contentType = contentTypes[extname(file)];
+          if (!contentType) throw new HttpError(404, 'Not found');
+          const contents = await readFile(file);
+          res.writeHead(200, { 'Content-Type': contentType }); res.end(contents); return;
+        } catch (error) {
+          if (error instanceof HttpError) throw error;
+          throw new HttpError(404, 'Page unavailable. Build the dashboard with npm --prefix apps/dashboard run build.');
+        }
+      }
       throttle(`ip:${req.socket.remoteAddress}`, 500, 60_000);
       const token = req.headers.cookie?.split(';').map(c => c.trim()).find(c => c.startsWith('braino_session='))?.slice('braino_session='.length) ?? '';
       let session = repository.session(token);
@@ -153,7 +174,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
           created.session.owner = owner; created.session.email = login.account.email;
           repository.saveSession(created.session); cookie(res, created.token);
         } finally { active.delete(owner); }
-        res.writeHead(302, { Location: '/' }).end(); return;
+        res.writeHead(302, { Location: '/app' }).end(); return;
       }
       if (!session.owner) throw new HttpError(401, 'Connect Google Drive before scanning.');
       const owner = session.owner;

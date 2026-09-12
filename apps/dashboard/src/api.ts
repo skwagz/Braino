@@ -1,6 +1,10 @@
 import type { BrainoApi, Folder, Job, Plan, Source, Workspace } from "./types";
+import { serverApi } from './server-api';
 
 export const folders: Folder[] = [
+  ...(new URLSearchParams(window.location.search).get('example') === 'wiki' ? [{
+    id: 'wiki-demo', name: 'Example wiki', path: 'Sample data / Roadmap and budget', fileCount: 2, modified: 'Synthetic sample',
+  }] : []),
   {
     id: "northstar",
     name: "Northstar Studio",
@@ -182,6 +186,11 @@ const mock: BrainoApi = {
   },
   async getWorkspace(folderId) {
     await delay();
+    if (folderId === 'wiki-demo') {
+      const response = await fetch('/wiki-demo.json');
+      if (!response.ok) throw new Error('Example wiki unavailable. Run npm run wiki:demo -- --ui from the repository root.');
+      return response.json() as Promise<Workspace>;
+    }
     return structuredClone(workspaces.get(folderId) ?? null);
   },
 };
@@ -193,7 +202,9 @@ declare global {
   }
 }
 const base = window.BRAINO_CONFIG?.apiBaseUrl;
-export const isDemo = !base;
+const query = new URLSearchParams(window.location.search);
+export const isDemo = !base && (query.get('demo') === '1' || query.get('example') === 'wiki');
+export const usesServer = !base && !isDemo;
 async function request<T>(
   path: string,
   body?: unknown,
@@ -235,4 +246,4 @@ export const api: BrainoApi = base
           `/workspaces/${encodeURIComponent(folderId)}`,
         ),
     }
-  : mock;
+  : isDemo ? mock : serverApi;

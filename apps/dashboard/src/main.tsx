@@ -22,13 +22,17 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
-import { api, isDemo } from "./api";
+import { api, isDemo as isMockDemo, usesServer } from "./api";
+import { Landing } from './landing';
+import { loadConnection } from './connection';
+import type { ConnectionStatus } from './connection';
 import type { Folder, Job, Plan, Source, WikiPage, Workspace } from "./types";
 import "./style.css";
 
 type View = "overview" | "structure" | "wiki" | "activity";
-function App() {
-  const [view, setView] = useState<View>("overview");
+function App({ sampleMode = isMockDemo, email }: { sampleMode?: boolean; email?: string }) {
+  const isDemo = sampleMode;
+  const [view, setView] = useState<View>(isDemo && new URLSearchParams(window.location.search).get('example') === 'wiki' ? 'wiki' : 'overview');
   const [folders, setFolders] = useState<Folder[]>([]);
   const [folder, setFolder] = useState<Folder>();
   const [picker, setPicker] = useState(false);
@@ -47,7 +51,7 @@ function App() {
   const retryAction = useRef<() => Promise<void>>(() => load());
   const sources = workspace?.sources ?? plan?.sources ?? [];
   const pages = workspace?.pages ?? plan?.pages ?? [];
-  const destinations = [...new Set(sources.map((s) => s.destination))];
+  const destinations = [...new Set(sources.map((s) => s.destination).filter(d => !usesServer || d !== 'Keep in current folder'))];
   const filtered = sources.filter((s) =>
     `${s.name} ${s.destination} ${s.reason}`
       .toLowerCase()
@@ -172,11 +176,7 @@ function App() {
       <aside className="sidebar">
         <a
           className="brand"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setView("overview");
-          }}
+          href="/"
         >
           <span className="brand-icon">
             <Network size={23} />
@@ -213,8 +213,8 @@ function App() {
           <div className="connection">
             <span className="status-dot" />
             <div>
-              <strong>{isDemo ? "Demo workspace" : "Workspace API"}</strong>
-              <small>{isDemo ? "Sample data only" : "Connected service"}</small>
+              <strong>{isDemo ? "Demo workspace" : "Google Drive connected"}</strong>
+              <small>{isDemo ? "Sample data only" : email ?? "Connected service"}</small>
             </div>
           </div>
           <button
@@ -226,9 +226,9 @@ function App() {
             Manage folders
           </button>
           <div className="profile">
-            <span className="avatar user">JS</span>
+            <span className="avatar user">{email?.slice(0, 2).toUpperCase() ?? 'B'}</span>
             <div>
-              <strong>Workspace team</strong>
+              <strong>{email ?? 'Your workspace'}</strong>
               <small>{isDemo ? "Preview environment" : "Braino"}</small>
             </div>
           </div>
@@ -243,6 +243,7 @@ function App() {
           <span className="demo-badge">
             {isDemo ? "Interactive demo" : "Live workspace"}
           </span>
+          <a className="text-button" href="/">Home<ArrowUpRight size={14} /></a>
         </header>
         <main>
           <div className="heading">
@@ -270,7 +271,7 @@ function App() {
             <button
               className="primary"
               disabled={busy || !folder}
-              onClick={scan}
+              onClick={folder?.id === 'wiki-demo' ? load : scan}
             >
               {busy ? (
                 <Loader2 className="spin" size={17} />
@@ -304,7 +305,7 @@ function App() {
               <small>{folder?.path ?? "Connect a folder to get started"}</small>
             </div>
             <span className="folder-meta">
-              {folder?.fileCount ?? 0} source files
+              {usesServer ? (plan || workspace ? `${sources.length} scanned files` : 'Scan to inspect') : `${folder?.fileCount ?? 0} source files`}
             </span>
             <button
               className="secondary"
@@ -331,7 +332,7 @@ function App() {
                 <div>
                   <span>Source files</span>
                   <strong>
-                    {folder?.fileCount ?? 0}
+                    {usesServer ? (plan || workspace ? sources.length : '—') : folder?.fileCount ?? 0}
                     <FileText size={19} />
                   </strong>
                   <small>In your selected folder</small>
@@ -508,8 +509,7 @@ function App() {
                     <div>
                       <strong>Workspace organized</strong>
                       <small>
-                        {workspace.sources.length} files organized with their
-                        source references preserved
+                        {usesServer ? workspace.activity[0]?.detail : `${workspace.sources.length} files organized with their source references preserved`}
                       </small>
                     </div>
                     <span>Just now</span>
@@ -602,7 +602,7 @@ function App() {
                       </strong>
                       {[
                         ...new Set(
-                          sources.map((s) =>
+                          sources.filter(s => tab === 'original' || !usesServer || s.destination !== 'Keep in current folder').map((s) =>
                             tab === "original" ? s.currentPath : s.destination,
                           ),
                         ),
@@ -656,7 +656,7 @@ function App() {
                           </button>
                           {tab === "original" ? (
                             <span className="path">{s.currentPath}</span>
-                          ) : workspace ? (
+                          ) : workspace || usesServer ? (
                             <span className="path">{s.destination}</span>
                           ) : (
                             <input
@@ -688,8 +688,8 @@ function App() {
               </div>
               {!pages.length ? (
                 <Empty
-                  title="Your wiki is waiting to take shape"
-                  text="Organize a folder to connect its projects, topics, and source files."
+                  title={usesServer ? 'Knowledge wiki is coming next' : 'Your wiki is waiting to take shape'}
+                  text={usesServer ? 'You can organize files now. Publishing source-backed wiki pages is still in development.' : 'Organize a folder to connect its projects, topics, and source files.'}
                 />
               ) : (
                 <>
@@ -804,7 +804,7 @@ function App() {
                     <span>
                       <strong>{f.name}</strong>
                       <small>
-                        {f.path} · {f.fileCount} files
+                        {f.path} · {usesServer ? 'Scan to inspect' : `${f.fileCount} files`}
                       </small>
                     </span>
                     <ChevronRight size={17} />
@@ -820,14 +820,12 @@ function App() {
         ) : confirm ? (
           <>
             <p>
-              {sources.length} files will be placed in {destinations.length}{" "}
-              destination folders. {pages.length} linked wiki pages will be
-              created.
+              {usesServer ? `${plan?.plannedMoves ?? 0} files will move according to this plan. Unclassified files stay in place. No wiki pages will be created.` : `${sources.length} files will be placed in ${destinations.length} destination folders. ${pages.length} linked wiki pages will be created.`}
             </p>
             <div className="confirmation-note">
               {isDemo
                 ? "This is a demo. Only the preview changes; your Google Drive is untouched."
-                : "Review the destinations before confirming. The server must verify permissions and record each change."}
+                : "This moves your original files in Google Drive. Review the destinations before confirming."}
             </div>
             <div className="dialog-actions">
               <button className="secondary" onClick={closeDialog}>
@@ -843,6 +841,22 @@ function App() {
           "sourceIds" in detail ? (
             <>
               <p>{detail.summary}</p>
+              {detail.evidence?.map(source => (
+                <section key={source.id}>
+                  <h3>{source.name}</h3>
+                  {source.facts.map((fact, index) => (
+                    <div key={index}>
+                      <p>{fact.text}</p>
+                      <blockquote style={{ margin: '12px 0', paddingLeft: 16, borderLeft: '3px solid #47836b', overflowWrap: 'anywhere' }}>{fact.quote}</blockquote>
+                    </div>
+                  ))}
+                </section>
+              ))}
+              {detail.relatedIds && <><h3>Related pages</h3><div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {detail.relatedIds.map(id => pages.find(p => p.id === id)).filter((p): p is WikiPage => !!p).map(page => (
+                  <button key={page.id} onClick={() => setDetail(page)}><BookOpen size={16} />{page.title}</button>
+                ))}
+              </div></>}
               <h3>Source files</h3>
               <FileList
                 sources={sources.filter((s) => detail.sourceIds.includes(s.id))}
@@ -957,4 +971,19 @@ function FileList({
     </div>
   );
 }
-createRoot(document.getElementById("root")!).render(<App />);
+function WorkspaceEntry() {
+  const [status, setStatus] = useState<ConnectionStatus>();
+  const [error, setError] = useState('');
+  async function check() {
+    setError('');
+    try { setStatus(await loadConnection()); }
+    catch { setError('We could not reach your workspace. Try again, or explore the demo.'); }
+  }
+  useEffect(() => { if (usesServer) void check(); }, []);
+  if (!usesServer) return <App />;
+  if (!status) return <div className="workspace-entry"><Network size={34} /><h1>{error ? 'Let’s reconnect.' : 'Opening your workspace…'}</h1>{error ? <><p role="alert">{error}</p><button className="primary" onClick={check}>Try again</button><a href="/app?demo=1">Explore the demo</a></> : <Loader2 className="spin" />}<a href="/">Back to Braino</a></div>;
+  if (!status.connected) return <Landing />;
+  return <App sampleMode={status.mode === 'demo'} email={status.email} />;
+}
+const workspaceRoute = /^\/app\/?$/.test(window.location.pathname) || new URLSearchParams(window.location.search).has('example');
+createRoot(document.getElementById("root")!).render(workspaceRoute ? <WorkspaceEntry /> : <Landing />);

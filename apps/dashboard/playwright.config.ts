@@ -6,10 +6,15 @@ export default defineConfig({
     browserName: "chromium",
     launchOptions: { channel: "msedge" },
   },
-  webServer: {
+  webServer: [{
+    command: 'node e2e/server.ts',
+    url: 'http://127.0.0.1:43822/health',
+    reuseExistingServer: false,
+  }, {
     command: "npm run dev -- --port 5173",
+    env: { BRAINO_API_TARGET: 'http://127.0.0.1:43822' },
     url: "http://127.0.0.1:5173",
-    reuseExistingServer: true,
-  },
+    reuseExistingServer: false,
+  }],
   reporter: "list",
 });

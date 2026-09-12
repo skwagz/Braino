@@ -20,6 +20,8 @@ export type WikiPage = {
   title: string;
   summary: string;
   sourceIds: string[];
+  evidence?: { id: string; name: string; facts: { text: string; quote: string }[] }[];
+  relatedIds?: string[];
 };
 export type Plan = {
   id: string;
@@ -29,6 +31,7 @@ export type Plan = {
   warnings: string[];
   sources: Source[];
   pages: WikiPage[];
+  plannedMoves?: number;
 };
 export type Job = {
   id: string;

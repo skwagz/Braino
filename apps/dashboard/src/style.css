@@ -13,6 +13,8 @@
 body {
   margin: 0;
 }
+.workspace-entry { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 30px; text-align: center; }
+.profile strong, .connection small { overflow-wrap: anywhere; }
 button,
 input {
   font: inherit;

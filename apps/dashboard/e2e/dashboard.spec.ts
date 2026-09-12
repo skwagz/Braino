@@ -1,9 +1,24 @@
 import { test, expect } from "@playwright/test";
 
+test('generated example wiki shows evidence and connected pages on desktop and mobile', async ({ page }) => {
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/?example=wiki');
+    await page.getByRole('button', { name: /Braino Index/ }).click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toContainText('October launch budget: 5000 EUR.');
+    await expect(dialog).toContainText('Ada owns the October launch.');
+    await dialog.getByRole('button', { name: 'Ada', exact: true }).click();
+    await expect(dialog.locator('blockquote')).toHaveText('Ada owns the October launch.');
+    await page.screenshot({ path: `test-results/wiki-${width}.png`, fullPage: true });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+});
+
 test("folder restructuring preview, editable destinations, wiki and search", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/app?demo=1");
   await expect(
     page.getByRole("button", { name: "Organize workspace" }),
   ).toBeEnabled();
@@ -49,7 +64,7 @@ test("folder restructuring preview, editable destinations, wiki and search", asy
 
 test("mobile navigation and no horizontal overflow", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/app?demo=1");
   await expect(
     page.getByRole("button", { name: "Organize workspace" }),
   ).toBeEnabled();
@@ -141,7 +156,7 @@ test("failed apply retries the same operation and idempotency key", async ({
     }
     return route.abort();
   });
-  await page.goto("/");
+  await page.goto("/app");
   await page.getByRole("button", { name: "Organize workspace" }).click();
   await page.getByRole("button", { name: "Review & apply" }).click();
   await page
