@@ -1,0 +1,11 @@
+{
+  "name": "braino-core",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.ts",
+    "demo": "node examples/demo.ts",
+    "structure": "node examples/structure.ts"
+  },
+  "engines": { "node": ">=24" }
+}

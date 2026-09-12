@@ -1,0 +1,1061 @@
+{
+  "mode": "connector snapshot replay; mechanical extraction; no Drive writes",
+  "discovered": 42,
+  "retrieved": 42,
+  "extracted": 40,
+  "report": {
+    "sources": [
+      {
+        "id": "1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk",
+        "name": "Lumos proposal",
+        "url": "https://drive.google.com/file/d/1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk/view",
+        "summary": "Connector text: 4046 characters"
+      },
+      {
+        "id": "1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA",
+        "name": "Week 5 presentation",
+        "url": "https://drive.google.com/file/d/1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA/view",
+        "summary": "Connector text: 1763 characters"
+      },
+      {
+        "id": "1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo",
+        "name": "Business plan",
+        "url": "https://drive.google.com/file/d/1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo/view",
+        "summary": "Connector text: 2512 characters"
+      },
+      {
+        "id": "1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc",
+        "name": "Lumos power point",
+        "url": "https://drive.google.com/file/d/1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc/view",
+        "summary": "Connector text: 2213 characters"
+      },
+      {
+        "id": "1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4",
+        "name": "Operation expense",
+        "url": "https://drive.google.com/file/d/1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4/view",
+        "summary": "Connector text: 3963 characters"
+      },
+      {
+        "id": "1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E",
+        "name": "LUMOS risk management plan",
+        "url": "https://drive.google.com/file/d/1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E/view",
+        "summary": "Connector text: 18677 characters"
+      },
+      {
+        "id": "1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70",
+        "name": "Anker",
+        "url": "https://drive.google.com/file/d/1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70/view",
+        "summary": "Connector text: 2874 characters"
+      },
+      {
+        "id": "1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns/view",
+        "summary": "Connector text: 31004 characters"
+      },
+      {
+        "id": "1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0",
+        "name": "Lumos",
+        "url": "https://drive.google.com/file/d/1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0/view",
+        "summary": "Connector text: 4905 characters"
+      },
+      {
+        "id": "1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE",
+        "name": "Competitive analysis",
+        "url": "https://drive.google.com/file/d/1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE/view",
+        "summary": "Connector text: 5039 characters"
+      },
+      {
+        "id": "10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo/view",
+        "summary": "Connector text: 10 characters"
+      },
+      {
+        "id": "10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE/view",
+        "summary": "Connector text: 580 characters"
+      },
+      {
+        "id": "10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI/view",
+        "summary": "Connector text: 6265 characters"
+      },
+      {
+        "id": "10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y/view",
+        "summary": "Connector text: 16297 characters"
+      },
+      {
+        "id": "11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI",
+        "name": "Sketch",
+        "url": "https://drive.google.com/file/d/11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI/view",
+        "summary": "Connector text: 28568 characters"
+      },
+      {
+        "id": "12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8",
+        "name": "Business ethics",
+        "url": "https://drive.google.com/file/d/12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8/view",
+        "summary": "Connector text: 1325 characters"
+      },
+      {
+        "id": "12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk",
+        "name": "Multi",
+        "url": "https://drive.google.com/file/d/12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk/view",
+        "summary": "Connector text: 4417 characters"
+      },
+      {
+        "id": "130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A",
+        "name": "Role play",
+        "url": "https://drive.google.com/file/d/130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A/view",
+        "summary": "Connector text: 4590 characters"
+      },
+      {
+        "id": "13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg",
+        "name": "Sprout",
+        "url": "https://drive.google.com/file/d/13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg/view",
+        "summary": "Connector text: 16102 characters"
+      },
+      {
+        "id": "13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo",
+        "name": "Telvs",
+        "url": "https://drive.google.com/file/d/13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo/view",
+        "summary": "Connector text: 3178 characters"
+      },
+      {
+        "id": "13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM",
+        "name": "BMW and Rover HRM roleplay",
+        "url": "https://drive.google.com/file/d/13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM/view",
+        "summary": "Connector text: 41869 characters"
+      },
+      {
+        "id": "145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI/view",
+        "summary": "Connector text: 3641 characters"
+      },
+      {
+        "id": "17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs",
+        "name": "SECTION_2_LiteratureReview_DRAFT.md",
+        "url": "https://drive.google.com/file/d/17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs/view",
+        "summary": "Connector text: 27299 characters"
+      },
+      {
+        "id": "1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8/view",
+        "summary": "Connector text: 3589 characters"
+      },
+      {
+        "id": "1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8",
+        "name": "Report",
+        "url": "https://drive.google.com/file/d/1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8/view",
+        "summary": "Connector text: 5683 characters"
+      },
+      {
+        "id": "1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs",
+        "name": "Free Claude Cowork Skills — 380+ Free Skills You Can Add Right Now",
+        "url": "https://drive.google.com/file/d/1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs/view",
+        "summary": "Connector text: 2561 characters"
+      },
+      {
+        "id": "1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8",
+        "name": "Sprout QS Skills Challenge  ",
+        "url": "https://drive.google.com/file/d/1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8/view",
+        "summary": "Connector text: 9079 characters"
+      },
+      {
+        "id": "1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY",
+        "name": "hvvm",
+        "url": "https://drive.google.com/file/d/1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY/view",
+        "summary": "Connector text: 7971 characters"
+      },
+      {
+        "id": "1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU",
+        "name": "Project proposal",
+        "url": "https://drive.google.com/file/d/1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU/view",
+        "summary": "Connector text: 1129 characters"
+      },
+      {
+        "id": "1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk",
+        "name": "HRM Script 1",
+        "url": "https://drive.google.com/file/d/1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk/view",
+        "summary": "Connector text: 14879 characters"
+      },
+      {
+        "id": "1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA",
+        "name": "The nightclub",
+        "url": "https://drive.google.com/file/d/1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA/view",
+        "summary": "Connector text: 16437 characters"
+      },
+      {
+        "id": "1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4",
+        "name": "Meeting minutes ",
+        "url": "https://drive.google.com/file/d/1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4/view",
+        "summary": "Connector text: 1128 characters"
+      },
+      {
+        "id": "1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus",
+        "name": "SECTION_1_Introduction_DRAFT.md",
+        "url": "https://drive.google.com/file/d/1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus/view",
+        "summary": "Connector text: 12343 characters"
+      },
+      {
+        "id": "1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE",
+        "name": "Untitled document",
+        "url": "https://drive.google.com/file/d/1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE/view",
+        "summary": "Connector text: 65 characters"
+      },
+      {
+        "id": "1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY",
+        "name": "Business letter",
+        "url": "https://drive.google.com/file/d/1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY/view",
+        "summary": "Connector text: 975 characters"
+      },
+      {
+        "id": "1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro",
+        "name": "Cenová nabídka - Lumos - Visual identity",
+        "url": "https://drive.google.com/file/d/1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro/view",
+        "summary": "Connector text: 1878 characters"
+      },
+      {
+        "id": "1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk",
+        "name": "Front office presentation",
+        "url": "https://drive.google.com/file/d/1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk/view",
+        "summary": "Connector text: 27161 characters"
+      },
+      {
+        "id": "1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U",
+        "name": "Budget Forecast - Tutorial",
+        "url": "https://drive.google.com/file/d/1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U/view",
+        "summary": "Connector text: 3790 characters"
+      },
+      {
+        "id": "1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4",
+        "name": "Business letter",
+        "url": "https://drive.google.com/file/d/1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4/view",
+        "summary": "Connector text: 1064 characters"
+      },
+      {
+        "id": "1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA",
+        "name": "Budget Forecast - trial ",
+        "url": "https://drive.google.com/file/d/1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA/view",
+        "summary": "Connector text: 417 characters"
+      }
+    ],
+    "skipped": [],
+    "errors": [
+      {
+        "fileId": "15vGydi1a4JgJcG1HGhqRkck4Foj4UY5OD4UVpNZTQpM",
+        "stage": "extract",
+        "message": "Error: Source is empty"
+      },
+      {
+        "fileId": "1vSNGlC2R_wf_XrXw0YycrGs3DNcghtuYDPMz7OdcUsY",
+        "stage": "extract",
+        "message": "Error: Source is empty"
+      }
+    ],
+    "pages": [
+      {
+        "key": "index",
+        "title": "Braino Index",
+        "kind": "index",
+        "sources": [
+          {
+            "id": "1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk",
+            "name": "Lumos proposal",
+            "url": "https://drive.google.com/file/d/1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk/view",
+            "summary": "Connector text: 4046 characters"
+          },
+          {
+            "id": "1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA",
+            "name": "Week 5 presentation",
+            "url": "https://drive.google.com/file/d/1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA/view",
+            "summary": "Connector text: 1763 characters"
+          },
+          {
+            "id": "1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo",
+            "name": "Business plan",
+            "url": "https://drive.google.com/file/d/1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo/view",
+            "summary": "Connector text: 2512 characters"
+          },
+          {
+            "id": "1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc",
+            "name": "Lumos power point",
+            "url": "https://drive.google.com/file/d/1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc/view",
+            "summary": "Connector text: 2213 characters"
+          },
+          {
+            "id": "1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4",
+            "name": "Operation expense",
+            "url": "https://drive.google.com/file/d/1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4/view",
+            "summary": "Connector text: 3963 characters"
+          },
+          {
+            "id": "1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E",
+            "name": "LUMOS risk management plan",
+            "url": "https://drive.google.com/file/d/1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E/view",
+            "summary": "Connector text: 18677 characters"
+          },
+          {
+            "id": "1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70",
+            "name": "Anker",
+            "url": "https://drive.google.com/file/d/1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70/view",
+            "summary": "Connector text: 2874 characters"
+          },
+          {
+            "id": "1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns/view",
+            "summary": "Connector text: 31004 characters"
+          },
+          {
+            "id": "1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0",
+            "name": "Lumos",
+            "url": "https://drive.google.com/file/d/1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0/view",
+            "summary": "Connector text: 4905 characters"
+          },
+          {
+            "id": "1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE",
+            "name": "Competitive analysis",
+            "url": "https://drive.google.com/file/d/1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE/view",
+            "summary": "Connector text: 5039 characters"
+          },
+          {
+            "id": "10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo/view",
+            "summary": "Connector text: 10 characters"
+          },
+          {
+            "id": "10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE/view",
+            "summary": "Connector text: 580 characters"
+          },
+          {
+            "id": "10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI/view",
+            "summary": "Connector text: 6265 characters"
+          },
+          {
+            "id": "10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y/view",
+            "summary": "Connector text: 16297 characters"
+          },
+          {
+            "id": "11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI",
+            "name": "Sketch",
+            "url": "https://drive.google.com/file/d/11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI/view",
+            "summary": "Connector text: 28568 characters"
+          },
+          {
+            "id": "12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8",
+            "name": "Business ethics",
+            "url": "https://drive.google.com/file/d/12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8/view",
+            "summary": "Connector text: 1325 characters"
+          },
+          {
+            "id": "12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk",
+            "name": "Multi",
+            "url": "https://drive.google.com/file/d/12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk/view",
+            "summary": "Connector text: 4417 characters"
+          },
+          {
+            "id": "130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A",
+            "name": "Role play",
+            "url": "https://drive.google.com/file/d/130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A/view",
+            "summary": "Connector text: 4590 characters"
+          },
+          {
+            "id": "13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg",
+            "name": "Sprout",
+            "url": "https://drive.google.com/file/d/13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg/view",
+            "summary": "Connector text: 16102 characters"
+          },
+          {
+            "id": "13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo",
+            "name": "Telvs",
+            "url": "https://drive.google.com/file/d/13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo/view",
+            "summary": "Connector text: 3178 characters"
+          },
+          {
+            "id": "13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM",
+            "name": "BMW and Rover HRM roleplay",
+            "url": "https://drive.google.com/file/d/13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM/view",
+            "summary": "Connector text: 41869 characters"
+          },
+          {
+            "id": "145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI/view",
+            "summary": "Connector text: 3641 characters"
+          },
+          {
+            "id": "17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs",
+            "name": "SECTION_2_LiteratureReview_DRAFT.md",
+            "url": "https://drive.google.com/file/d/17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs/view",
+            "summary": "Connector text: 27299 characters"
+          },
+          {
+            "id": "1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8/view",
+            "summary": "Connector text: 3589 characters"
+          },
+          {
+            "id": "1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8",
+            "name": "Report",
+            "url": "https://drive.google.com/file/d/1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8/view",
+            "summary": "Connector text: 5683 characters"
+          },
+          {
+            "id": "1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs",
+            "name": "Free Claude Cowork Skills — 380+ Free Skills You Can Add Right Now",
+            "url": "https://drive.google.com/file/d/1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs/view",
+            "summary": "Connector text: 2561 characters"
+          },
+          {
+            "id": "1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8",
+            "name": "Sprout QS Skills Challenge  ",
+            "url": "https://drive.google.com/file/d/1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8/view",
+            "summary": "Connector text: 9079 characters"
+          },
+          {
+            "id": "1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY",
+            "name": "hvvm",
+            "url": "https://drive.google.com/file/d/1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY/view",
+            "summary": "Connector text: 7971 characters"
+          },
+          {
+            "id": "1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU",
+            "name": "Project proposal",
+            "url": "https://drive.google.com/file/d/1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU/view",
+            "summary": "Connector text: 1129 characters"
+          },
+          {
+            "id": "1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk",
+            "name": "HRM Script 1",
+            "url": "https://drive.google.com/file/d/1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk/view",
+            "summary": "Connector text: 14879 characters"
+          },
+          {
+            "id": "1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA",
+            "name": "The nightclub",
+            "url": "https://drive.google.com/file/d/1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA/view",
+            "summary": "Connector text: 16437 characters"
+          },
+          {
+            "id": "1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4",
+            "name": "Meeting minutes ",
+            "url": "https://drive.google.com/file/d/1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4/view",
+            "summary": "Connector text: 1128 characters"
+          },
+          {
+            "id": "1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus",
+            "name": "SECTION_1_Introduction_DRAFT.md",
+            "url": "https://drive.google.com/file/d/1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus/view",
+            "summary": "Connector text: 12343 characters"
+          },
+          {
+            "id": "1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE/view",
+            "summary": "Connector text: 65 characters"
+          },
+          {
+            "id": "1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY",
+            "name": "Business letter",
+            "url": "https://drive.google.com/file/d/1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY/view",
+            "summary": "Connector text: 975 characters"
+          },
+          {
+            "id": "1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro",
+            "name": "Cenová nabídka - Lumos - Visual identity",
+            "url": "https://drive.google.com/file/d/1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro/view",
+            "summary": "Connector text: 1878 characters"
+          },
+          {
+            "id": "1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk",
+            "name": "Front office presentation",
+            "url": "https://drive.google.com/file/d/1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk/view",
+            "summary": "Connector text: 27161 characters"
+          },
+          {
+            "id": "1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U",
+            "name": "Budget Forecast - Tutorial",
+            "url": "https://drive.google.com/file/d/1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U/view",
+            "summary": "Connector text: 3790 characters"
+          },
+          {
+            "id": "1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4",
+            "name": "Business letter",
+            "url": "https://drive.google.com/file/d/1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4/view",
+            "summary": "Connector text: 1064 characters"
+          },
+          {
+            "id": "1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA",
+            "name": "Budget Forecast - trial ",
+            "url": "https://drive.google.com/file/d/1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA/view",
+            "summary": "Connector text: 417 characters"
+          }
+        ],
+        "links": [
+          "topic:connector%20smoke%20test"
+        ]
+      },
+      {
+        "key": "topic:connector%20smoke%20test",
+        "title": "Connector smoke test",
+        "kind": "topic",
+        "sources": [
+          {
+            "id": "1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk",
+            "name": "Lumos proposal",
+            "url": "https://drive.google.com/file/d/1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk/view",
+            "summary": "Connector text: 4046 characters"
+          },
+          {
+            "id": "1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA",
+            "name": "Week 5 presentation",
+            "url": "https://drive.google.com/file/d/1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA/view",
+            "summary": "Connector text: 1763 characters"
+          },
+          {
+            "id": "1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo",
+            "name": "Business plan",
+            "url": "https://drive.google.com/file/d/1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo/view",
+            "summary": "Connector text: 2512 characters"
+          },
+          {
+            "id": "1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc",
+            "name": "Lumos power point",
+            "url": "https://drive.google.com/file/d/1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc/view",
+            "summary": "Connector text: 2213 characters"
+          },
+          {
+            "id": "1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4",
+            "name": "Operation expense",
+            "url": "https://drive.google.com/file/d/1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4/view",
+            "summary": "Connector text: 3963 characters"
+          },
+          {
+            "id": "1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E",
+            "name": "LUMOS risk management plan",
+            "url": "https://drive.google.com/file/d/1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E/view",
+            "summary": "Connector text: 18677 characters"
+          },
+          {
+            "id": "1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70",
+            "name": "Anker",
+            "url": "https://drive.google.com/file/d/1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70/view",
+            "summary": "Connector text: 2874 characters"
+          },
+          {
+            "id": "1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns/view",
+            "summary": "Connector text: 31004 characters"
+          },
+          {
+            "id": "1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0",
+            "name": "Lumos",
+            "url": "https://drive.google.com/file/d/1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0/view",
+            "summary": "Connector text: 4905 characters"
+          },
+          {
+            "id": "1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE",
+            "name": "Competitive analysis",
+            "url": "https://drive.google.com/file/d/1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE/view",
+            "summary": "Connector text: 5039 characters"
+          },
+          {
+            "id": "10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo/view",
+            "summary": "Connector text: 10 characters"
+          },
+          {
+            "id": "10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE/view",
+            "summary": "Connector text: 580 characters"
+          },
+          {
+            "id": "10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI/view",
+            "summary": "Connector text: 6265 characters"
+          },
+          {
+            "id": "10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y/view",
+            "summary": "Connector text: 16297 characters"
+          },
+          {
+            "id": "11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI",
+            "name": "Sketch",
+            "url": "https://drive.google.com/file/d/11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI/view",
+            "summary": "Connector text: 28568 characters"
+          },
+          {
+            "id": "12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8",
+            "name": "Business ethics",
+            "url": "https://drive.google.com/file/d/12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8/view",
+            "summary": "Connector text: 1325 characters"
+          },
+          {
+            "id": "12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk",
+            "name": "Multi",
+            "url": "https://drive.google.com/file/d/12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk/view",
+            "summary": "Connector text: 4417 characters"
+          },
+          {
+            "id": "130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A",
+            "name": "Role play",
+            "url": "https://drive.google.com/file/d/130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A/view",
+            "summary": "Connector text: 4590 characters"
+          },
+          {
+            "id": "13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg",
+            "name": "Sprout",
+            "url": "https://drive.google.com/file/d/13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg/view",
+            "summary": "Connector text: 16102 characters"
+          },
+          {
+            "id": "13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo",
+            "name": "Telvs",
+            "url": "https://drive.google.com/file/d/13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo/view",
+            "summary": "Connector text: 3178 characters"
+          },
+          {
+            "id": "13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM",
+            "name": "BMW and Rover HRM roleplay",
+            "url": "https://drive.google.com/file/d/13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM/view",
+            "summary": "Connector text: 41869 characters"
+          },
+          {
+            "id": "145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI/view",
+            "summary": "Connector text: 3641 characters"
+          },
+          {
+            "id": "17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs",
+            "name": "SECTION_2_LiteratureReview_DRAFT.md",
+            "url": "https://drive.google.com/file/d/17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs/view",
+            "summary": "Connector text: 27299 characters"
+          },
+          {
+            "id": "1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8/view",
+            "summary": "Connector text: 3589 characters"
+          },
+          {
+            "id": "1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8",
+            "name": "Report",
+            "url": "https://drive.google.com/file/d/1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8/view",
+            "summary": "Connector text: 5683 characters"
+          },
+          {
+            "id": "1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs",
+            "name": "Free Claude Cowork Skills — 380+ Free Skills You Can Add Right Now",
+            "url": "https://drive.google.com/file/d/1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs/view",
+            "summary": "Connector text: 2561 characters"
+          },
+          {
+            "id": "1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8",
+            "name": "Sprout QS Skills Challenge  ",
+            "url": "https://drive.google.com/file/d/1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8/view",
+            "summary": "Connector text: 9079 characters"
+          },
+          {
+            "id": "1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY",
+            "name": "hvvm",
+            "url": "https://drive.google.com/file/d/1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY/view",
+            "summary": "Connector text: 7971 characters"
+          },
+          {
+            "id": "1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU",
+            "name": "Project proposal",
+            "url": "https://drive.google.com/file/d/1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU/view",
+            "summary": "Connector text: 1129 characters"
+          },
+          {
+            "id": "1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk",
+            "name": "HRM Script 1",
+            "url": "https://drive.google.com/file/d/1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk/view",
+            "summary": "Connector text: 14879 characters"
+          },
+          {
+            "id": "1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA",
+            "name": "The nightclub",
+            "url": "https://drive.google.com/file/d/1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA/view",
+            "summary": "Connector text: 16437 characters"
+          },
+          {
+            "id": "1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4",
+            "name": "Meeting minutes ",
+            "url": "https://drive.google.com/file/d/1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4/view",
+            "summary": "Connector text: 1128 characters"
+          },
+          {
+            "id": "1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus",
+            "name": "SECTION_1_Introduction_DRAFT.md",
+            "url": "https://drive.google.com/file/d/1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus/view",
+            "summary": "Connector text: 12343 characters"
+          },
+          {
+            "id": "1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE",
+            "name": "Untitled document",
+            "url": "https://drive.google.com/file/d/1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE/view",
+            "summary": "Connector text: 65 characters"
+          },
+          {
+            "id": "1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY",
+            "name": "Business letter",
+            "url": "https://drive.google.com/file/d/1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY/view",
+            "summary": "Connector text: 975 characters"
+          },
+          {
+            "id": "1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro",
+            "name": "Cenová nabídka - Lumos - Visual identity",
+            "url": "https://drive.google.com/file/d/1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro/view",
+            "summary": "Connector text: 1878 characters"
+          },
+          {
+            "id": "1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk",
+            "name": "Front office presentation",
+            "url": "https://drive.google.com/file/d/1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk/view",
+            "summary": "Connector text: 27161 characters"
+          },
+          {
+            "id": "1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U",
+            "name": "Budget Forecast - Tutorial",
+            "url": "https://drive.google.com/file/d/1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U/view",
+            "summary": "Connector text: 3790 characters"
+          },
+          {
+            "id": "1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4",
+            "name": "Business letter",
+            "url": "https://drive.google.com/file/d/1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4/view",
+            "summary": "Connector text: 1064 characters"
+          },
+          {
+            "id": "1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA",
+            "name": "Budget Forecast - trial ",
+            "url": "https://drive.google.com/file/d/1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA/view",
+            "summary": "Connector text: 417 characters"
+          }
+        ],
+        "links": []
+      }
+    ],
+    "complete": false
+  },
+  "plannedWrites": 0,
+  "documents": [
+    {
+      "id": "17tTpuman2u8gRQ8ga2lTnbT1ek7rOJiZeVEFC5MvaQs",
+      "name": "SECTION_2_LiteratureReview_DRAFT.md",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 27299,
+      "sha256": "2186dbed5005fef08496cc1b98284347fe5063416ebe9da48831a78c5bda3d39"
+    },
+    {
+      "id": "1_dpoiUzV4rWiHy4bOCM-VGLTv8fxw5JCshzSsfRcPus",
+      "name": "SECTION_1_Introduction_DRAFT.md",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 12343,
+      "sha256": "e9ebf5f85fa6e1be46de8e22cdb4fabb54fa721d901bf55c076a0fae103009be"
+    },
+    {
+      "id": "1Oiu_oKbfqyJlIVxFVQjH1Ae9ugQ34rZVjV-3eB0YPx8",
+      "name": "Sprout QS Skills Challenge  ",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 9079,
+      "sha256": "c7e573fe7f0cc9ec88ff59a5191605610bac68d0a778d17e242c052452a60beb"
+    },
+    {
+      "id": "13976T51OsRx24TAWEELDlSmaeQquUjxcf8fbNpGTeqg",
+      "name": "Sprout",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 16102,
+      "sha256": "9aaf9276b9bd29c41d328ad22c4caebb0351b1e6bae26e1f78efe828e8e9cb48"
+    },
+    {
+      "id": "1KYNLhXbnV0TUAopKrkb-dvi1kLDyQbXEZ_h1_AIGwgs",
+      "name": "Free Claude Cowork Skills — 380+ Free Skills You Can Add Right Now",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 2561,
+      "sha256": "db0af2d272156f948435548a2fa7d0ecea0f1f4378903ef5b6dd621c86dbe531"
+    },
+    {
+      "id": "1c7sOdfjwAJLbmfLzhec2x72TT6zXGaldnbxWSRJI6jE",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 65,
+      "sha256": "8d4b16d7b5d6487f402d81139ff10e204c0912fbb9fb6fa0125fc9998af6d107"
+    },
+    {
+      "id": "1CSRFcfkeN0CYxgCaEcnPg3BPLjz2Og4SRLD_NTsTkb8",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 3589,
+      "sha256": "9ccc58af483f3c599af51d226b1c412016dbb93bad6cb89aa85ffc016b3cb0cb"
+    },
+    {
+      "id": "1_APecsZaK55rDtAlhyAQitP3pXZJ5zrAfYI0kC9J1h4",
+      "name": "Meeting minutes ",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 1128,
+      "sha256": "144efaa430937b0c00df97f792686e96cdd1352b3684452146ba1cd57db86f7f"
+    },
+    {
+      "id": "13vx6pVkqB5ZvZ_ZRBZ4kjD_JjlW7_aS5B2n2GQarNuM",
+      "name": "BMW and Rover HRM roleplay",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 41869,
+      "sha256": "f689eb7b3518851c320aed7fb376c857e71590d228bdbef1aa4e77d726bc0305"
+    },
+    {
+      "id": "12aqzwvUxpKNPTP0WUzljYb1YA2WLw0NeF2imew56MTk",
+      "name": "Multi",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 4417,
+      "sha256": "142fff8eeca8f0bd4411a9ba7b7f01972526d1ae82a484c8ceb455ec03bdf945"
+    },
+    {
+      "id": "15vGydi1a4JgJcG1HGhqRkck4Foj4UY5OD4UVpNZTQpM",
+      "name": "Propfirms",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "145frl3354RdAk5Bt5p4G4kvKKJmWqNKeNduyQi7vJtI",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 3641,
+      "sha256": "81b4534d8cd15170e582b290d145ca53a1406d765737aad451679ac42aa91f97"
+    },
+    {
+      "id": "1X7BSMFwnJW-PWsvYv_lpQP4Qu369hd9Ef0g1Z54Mcxk",
+      "name": "HRM Script 1",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 14879,
+      "sha256": "8025aee348de879fea7c06e8c8539c52faf3e78bf0e088a23f96722f4c26b38f"
+    },
+    {
+      "id": "10v5CXAQf_8LpMeHTJtFRtDMo8ghf6puyhPhDBahUr1Y",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 16297,
+      "sha256": "afa4cb177d4604f7fbac47961132d966c644b8e7d2dce7b9145f9b414118d44e"
+    },
+    {
+      "id": "1FWDAAO9kUNQj9x8r1sAo16SMpukH0M_nz_YSU4nkMo8",
+      "name": "Report",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 5683,
+      "sha256": "de263d86ae7df0acca9375c8f78494f80470392e03cb7d0696a3859af66637d4"
+    },
+    {
+      "id": "1uDsNberZ46L3y03BaNtEhp_-MDBargDTMZGcuRnTQa4",
+      "name": "Business letter",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 1064,
+      "sha256": "a2664a0974317b306b1c970ad1919b46aac5383292989c067f9f83982409df7d"
+    },
+    {
+      "id": "1j5FO9wDZVFgVubiIliD0WyqqftVHjouH08_D3jib9ZY",
+      "name": "Business letter",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 975,
+      "sha256": "968eace0d618cc96eee84d084f2e36f56da13d8663b6e2ee728433ed5e5dad0c"
+    },
+    {
+      "id": "1-tCnfGlVhuQTx_uQux0xvw1SaRSTM92IjlcU4MGpXns",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 31004,
+      "sha256": "0493682d7466563aab614375be15b55980cf9399dac5470e99aaff31a29a4bc7"
+    },
+    {
+      "id": "1-sNQxx4NsgeZkU424qKjD6KuKd7d9_Nyz4ZmJAIBu70",
+      "name": "Anker",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 2874,
+      "sha256": "e4eaa20128bb78c140889a83a275a2e0d8dad45617bb0ed769ad3b1a9e666489"
+    },
+    {
+      "id": "130SV7TfqJZX5QSqFyYE9wEY6XylBBjaJOXW6jDapj-A",
+      "name": "Role play",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 4590,
+      "sha256": "e3eb015b74bc56ff7a6b1ada210fa5ef1b8a392aaff0e2c0cd4d93ef166cdd50"
+    },
+    {
+      "id": "13ZeQew6-6AT3t_J5JqwxOWMvNvMyjKJCI-bHUJJtFDo",
+      "name": "Telvs",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 3178,
+      "sha256": "414a7fd2de80d162b216cefbd9dd8f9367a62d468830143465a51d89ed578de5"
+    },
+    {
+      "id": "12EHIb-5JBygu04pQgl9CYD3tHpr2c4kW9_IT4wXFZ-8",
+      "name": "Business ethics",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 1325,
+      "sha256": "7b7c788885c11ca442363a3f2805c4802540b56b246282375e2aec2eedcd86bc"
+    },
+    {
+      "id": "1vSNGlC2R_wf_XrXw0YycrGs3DNcghtuYDPMz7OdcUsY",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "11x8S4ZH3O-XKSP-otm1g51uVh1x6IA01PmFqsAvVlzI",
+      "name": "Sketch",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 28568,
+      "sha256": "d67878d9e9378066a9c8f12f637db7b9b19a21ad9b5d7c7c2c6099a7fac589fc"
+    },
+    {
+      "id": "1lIzZoxDaaWjMqeO54cN74j8v-eyOqjaNmDm47Fs9Qro",
+      "name": "Cenová nabídka - Lumos - Visual identity",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 1878,
+      "sha256": "97f4e269149052181329e13239c5307e39ce8538d378fabc100e441e362dbbbb"
+    },
+    {
+      "id": "10WwZWfCB2SYIJr4hT7Lm5nfVef-WlDNjTkqOv3v40xo",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 10,
+      "sha256": "2afe12eb3a136057c11b4432e600d0cb81ee70ce6d96da3c7e504e2317ed477a"
+    },
+    {
+      "id": "10r2QajDdbNti3bzy0KOaO-xDHLeHye9MHiXoUOGLChI",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 6265,
+      "sha256": "8782e69750f32ac4c2963bb7807ca16ee5026cab353ce2e54926eaa1ec8cb1f0"
+    },
+    {
+      "id": "1_4JV0QTMIFuV9Wc5icl1ZmLJNi7woI7dzE8ZENE6gpA",
+      "name": "The nightclub",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 16437,
+      "sha256": "666fbf94f38207ba3930b4c9b51164d598d385c1ec69ddef95e235926f36c4c0"
+    },
+    {
+      "id": "10gjhpfAmCCEqVIcVipM_qcqoY_1KWc3LkXgarAORtsE",
+      "name": "Untitled document",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 580,
+      "sha256": "8788962d44aeb3c7c26fcc1b8bd818086c54449121203e6a5e1294d4e4677eac"
+    },
+    {
+      "id": "1uTJQzCIPMz08A3ge7MSGIiAY1XPtZXkyDAA6b8GXjoA",
+      "name": "Budget Forecast - trial ",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 417,
+      "sha256": "cdf733d90638e367405375fcc07f656d4d202d3d88a9da62a0e52c303e3e2363"
+    },
+    {
+      "id": "1-iAtgB6jfRabCi6Z83HoZUXn4DhObe4G8KTS8mmV6a4",
+      "name": "Operation expense",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 3963,
+      "sha256": "a4bc6a94b9565336550901d5e647bd49e7442d71e17e943820222fffde6af0a6"
+    },
+    {
+      "id": "1s51a-yfPC3-uLssA5ALGUh9O-JhqFozFICX2ZOwDU4U",
+      "name": "Budget Forecast - Tutorial",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 3790,
+      "sha256": "3975d03d3d15ce5136796121da5a25518ba10fa0b77e197a0e0409ee263d8a82"
+    },
+    {
+      "id": "1-kCVmQjNzXkvf9N9pjNeTgiVS1zQfe1IM5d0pS1fg8E",
+      "name": "LUMOS risk management plan",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 18677,
+      "sha256": "a16d11b56c6437144dee89090916a3e6a9ee457f575158b2b7675a343d9d66b5"
+    },
+    {
+      "id": "1-92WBFHrjgJnW1rO--Uur_GF30EBY0EnpvNzi4kFGbk",
+      "name": "Lumos proposal",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 4046,
+      "sha256": "7bf0439c77aaa9a4066e07174396c7ce9a10317520d8106af50394a192f3741d"
+    },
+    {
+      "id": "1035sOCM1aKJUfHrRol2Fl0r7UU7THBmpQfhfJMMHQNE",
+      "name": "Competitive analysis",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 5039,
+      "sha256": "944dbb132214408dabbce33545d09bd78c3ec84b90276f951727e1b42b25edda"
+    },
+    {
+      "id": "1-c6aUO4VuYudggrx6_PrcgThK_KltUfEDI9ySoJkbtc",
+      "name": "Lumos power point",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 2213,
+      "sha256": "37bd47f11e534c1fd55093a2d377d2c7d76dd2e75cfaec7e62b3542f7e3432f4"
+    },
+    {
+      "id": "1Q92hdKrRzdyUpRJ2intHkYgFnpdl2TJ9Dg3jHkoTvmU",
+      "name": "Project proposal",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 1129,
+      "sha256": "49acb732ce7d8bf53842d205cf9a5fe5f8b9714494805585f6c19e35d67c351c"
+    },
+    {
+      "id": "1-tYD1qdaaFk3DTq063p595kEG3pg040Mbj_LLsIK_c0",
+      "name": "Lumos",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 4905,
+      "sha256": "5292f1e3aefb44ec0b4dd086e135b15ea0aab332da4a0709af48c56571c6d643"
+    },
+    {
+      "id": "1-bSa7xvE48c9doAZVtb7lqyb7kIsu2AtCs_zeWHjHUo",
+      "name": "Business plan",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 2512,
+      "sha256": "db5534bbfe4d9e382998af25c3f44685d17574b78e29df0b1b59c90f1b41f060"
+    },
+    {
+      "id": "1lTK9N39bYordB6HxSyQN0hHQKrQNuy2MpJ48SO4H9Qk",
+      "name": "Front office presentation",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 27161,
+      "sha256": "2526b26ba3f47a3ed19934c56c0872442d068d5b0abbdb95e83f4912cac1c0d4"
+    },
+    {
+      "id": "1P3mUvrwDNnywKlnVNVeKe-N_KPrWvhdd9SN2rQmIupY",
+      "name": "hvvm",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 7971,
+      "sha256": "8e22c3f865ad1637356c8ba0d954e580afc7a12e2d7f3c215e0b78dde17326a8"
+    },
+    {
+      "id": "1-XQPsW7iaKp6yO2VyuurDUA6sgGlVCytKAR2zABh7nA",
+      "name": "Week 5 presentation",
+      "mimeType": "application/vnd.google-apps.document",
+      "characters": 1763,
+      "sha256": "883404b6a1a5d326a08ee02e4944ab4d766b2bf808efb83770d98fd12501f287"
+    }
+  ]
+}
