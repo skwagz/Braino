@@ -8,6 +8,14 @@ Full engineering guidelines — planning, verification, communication, error han
 
 For the project itself — the idea, ICP, product shape, end-to-end flow, and scope cuts — see [HANDOFF.md](HANDOFF.md).
 
+## Shared project context
+
+Before product, architecture, or wiki-generation work, read [FEASIBILITY.md](FEASIBILITY.md) for research, constraints, and validation criteria. Read its status update first: implementation findings describe a dated checkout and must be checked against current code.
+
+Research recommendations are proposals, not automatically accepted scope changes. Explicit current user/team decisions take precedence. Record accepted product decisions in HANDOFF.md and implementation results in tasks/todo.md so other teammates and agent sessions can discover them without access to a particular chat.
+
+Keep this shared context in version control. Teammates and agents in other checkouts must pull the branch containing updates; existing chats should explicitly reread changed documents before continuing related work.
+
 ## Commit convention
 
 Create well-formatted, atomic commits using conventional commit messages with emojis.
