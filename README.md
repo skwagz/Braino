@@ -1,5 +1,25 @@
 # Braino scanning and sorting core
 
+## Content-based folder structuring
+
+Run `npm run structure` for a demo: an untitled homework document goes to School,
+a misleadingly named document containing meeting minutes goes to Meetings, and
+unclear content stays in a review list. This prints a preview and does not change Drive.
+
+Run `npm run structure -- <connector-snapshot.json>` to classify real retrieved
+text in the snapshot format below. A snapshot provides classification only; live
+parent metadata is required before planning real moves. Output can contain source
+excerpts, so keep saved results private.
+
+`structureFolder({ folderId, drive, classify? })` in `src/structure.ts` returns
+folder assignments, evidence, review items and scan errors. `planStructure(report,
+{ sourceFolderId, folders, parents })` creates a folder/move preview with current
+parent checks and rerun deduplication. The default classifier uses conservative
+English content keywords; supply a `Classifier` adapter for an LLM.
+
+See [architecture and integration contracts](docs/architecture.md). Actual Drive
+folder creation and moves are not implemented or performed by this core.
+
 A dependency-free TypeScript core, runnable on Node 24+. It scans a selected
 folder, sends Docs/Sheets text to an injected extractor, groups the returned
 topics/entities, preserves citations, and produces a write plan. It never moves
