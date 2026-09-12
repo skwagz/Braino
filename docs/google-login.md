@@ -1,5 +1,10 @@
 # Connect Google Drive
 
+For backend configuration, follow [server setup](deployment.md). Integration with
+the existing React dashboard remains pending. Do not start both callback servers
+on the same port. Web accounts are stored separately per Google subject.
+The remainder of this guide describes the working single-account CLI flow.
+
 Braino now supports Google account consent and automatic token refresh. This is
 a local, single-account development flow. Google handles the password and consent
 screen. The organizer uses the saved login automatically.
