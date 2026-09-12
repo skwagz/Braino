@@ -14,6 +14,7 @@ export interface OrganizingDrive extends DriveReader {
   metadata(id: string): Promise<Metadata>;
   ensureCategory(root: string, category: CategoryId): Promise<string>;
   move(id: string, destination: string, oldParent: string): Promise<void>;
+  rename(id: string, name: string): Promise<void>;
 }
 
 const fields = 'id,name,mimeType,parents,version,trashed,driveId,appProperties';
@@ -83,6 +84,10 @@ export function createDrive(options: {
   }
   return {
     metadata, listChildren, readText,
+    async rename(id, name) {
+      await request(`files/${encodeURIComponent(id)}`, { fields: 'id,name' }, 'PATCH', { name });
+      if ((await metadata(id)).name !== name) throw new Error('Rename readback failed');
+    },
     async ensureCategory(root, category) {
       const definition = categories.find(c => c.id === category);
       if (!definition) throw new Error('Unknown category');

@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "npm --prefix apps/dashboard ci && npm --prefix apps/dashboard run build",
     "start": "node --use-system-ca --env-file-if-exists=.env src/server.ts",
     "evaluate": "node --use-system-ca --env-file-if-exists=.env examples/evaluate-classifier.ts",
     "typecheck": "tsc",

@@ -8,16 +8,18 @@ import { demoDrive } from './demo.ts';
 import { createDrive } from '../drive.ts';
 import type { OrganizingDrive } from '../drive.ts';
 import { MIME } from '../brain.ts';
-import { planStructure, classifyByContent } from '../structure.ts';
+import { categories, classifyByContent } from '../structure.ts';
 import type { Classifier } from '../structure.ts';
-import { previewOrganization, applyOrganization } from '../organizer.ts';
+import { previewOrganization, applyOrganization, defaultEdits, organizationPlan, fileLocations } from '../organizer.ts';
+import type { PlanEdit } from '../organizer.ts';
 import { googleLogin, savedAccessToken, disconnect } from '../auth/google.ts';
 import type { AuthConfig, GoogleLogin } from '../auth/google.ts';
 import { createLoginStore } from '../auth/store.ts';
 import { createLLMClassifier } from '../classifier.ts';
+import { serveDashboard } from './static.ts';
 
 export interface WebConfig {
-  mode: 'demo' | 'live'; origin: string; dataDir: string;
+  mode: 'demo' | 'live'; origin: string; dataDir: string; dashboardDir?: string;
   google?: AuthConfig; apiKey?: string; model?: string;
 }
 class HttpError extends Error { status: number; constructor(status: number, message: string) { super(message); this.status = status; } }
@@ -26,7 +28,9 @@ const required = (value: unknown, label: string) => {
   return value;
 };
 const publicRun = (run: Run) => ({ id: run.id, folderId: run.folderId, status: run.status, createdAt: run.createdAt,
-  report: run.preview?.report, plan: run.preview ? planStructure(run.preview.report, run.preview.state) : undefined,
+  report: run.preview?.report, plan: run.preview ? organizationPlan(run.preview, run.edits) : undefined,
+  edits: run.preview ? run.edits ?? defaultEdits(run.preview) : [], version: run.version ?? 0,
+  locations: run.locations ?? run.preview?.locations ?? {},
   result: run.result, error: run.error });
 
 // All records are owned by authenticated Google subject IDs or isolated demo
@@ -91,7 +95,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
     let text = '';
     for await (const chunk of req) {
       text += String(chunk);
-      if (Buffer.byteLength(text) > 4096) throw new HttpError(413, 'Request too large');
+      if (Buffer.byteLength(text) > 65536) throw new HttpError(413, 'Request too large');
     }
     let value: unknown;
     try { value = JSON.parse(text); } catch { throw new HttpError(400, 'Invalid JSON'); }
@@ -109,6 +113,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
       const url = new URL(req.url ?? '/', origin);
       if (url.origin !== origin.origin) throw new HttpError(403, 'Unexpected origin');
       if (url.pathname === '/health' && req.method === 'GET') { json(res, 200, { status: 'ok' }); return; }
+      if (await serveDashboard(req, res, url.pathname, config.dashboardDir)) return;
       throttle(`ip:${req.socket.remoteAddress}`, 500, 60_000);
       const token = req.headers.cookie?.split(';').map(c => c.trim()).find(c => c.startsWith('braino_session='))?.slice('braino_session='.length) ?? '';
       let session = repository.session(token);
@@ -194,27 +199,67 @@ export async function createWebApp(config: WebConfig, dependencies: {
         const run: Run = { id: secret(), owner, folderId, createdAt: Date.now(), status: 'scanning' };
         active.add(owner); repository.saveRun(run);
         job(run, async () => {
-          run.preview = await previewOrganization({ folderId, drive: drive(owner), classify });
+          run.preview = await previewOrganization({ folderId, drive: drive(owner), classify: async input => {
+            const decision = await classify(input);
+            const override = repository.categoryOverride(owner, input.file.id);
+            if (!override) return decision;
+            return { ...decision, categoryId: override.categoryId,
+              destinationSource: 'user',
+              reason: `Saved user destination: ${override.categoryId === null ? 'keep current folder' : categories.find(c => c.id === override.categoryId)!.name}. ${decision.reason}`,
+              method: `${decision.method}+user-override` };
+          } });
           run.status = 'ready'; repository.saveRun(run);
         });
         json(res, 202, publicRun(run)); return;
       }
-      const match = /^\/api\/runs\/([a-zA-Z0-9_-]+)(\/apply|\/events)?$/.exec(url.pathname);
+      const match = /^\/api\/runs\/([a-zA-Z0-9_-]+)(\/apply|\/events|\/plan)?$/.exec(url.pathname);
       if (match) {
         const run = repository.run(match[1], owner);
         if (!run) throw new HttpError(404, 'Run not found');
         if (!match[2] && req.method === 'GET') { json(res, 200, publicRun(run)); return; }
         if (match[2] === '/events' && req.method === 'GET') { json(res, 200, { events: repository.events(run.id) }); return; }
+        if (match[2] === '/plan' && req.method === 'POST') {
+          const input = await body(req);
+          // Reading the body yields: recheck session and run to avoid stale concurrent edits/apply.
+          if (repository.session(token)?.owner !== owner) throw new HttpError(401, 'Session ended. Reload the dashboard.');
+          const current = repository.run(run.id, owner);
+          if (!current?.preview || current.status !== 'ready' || active.has(owner)) throw new HttpError(409, 'This run is not ready to edit.');
+          if (Object.keys(input).some(k => !['version', 'sources'].includes(k)) || !Number.isSafeInteger(input.version)) throw new HttpError(400, 'Expected a plan version and sources.');
+          if (input.version !== (current.version ?? 0)) throw new HttpError(409, 'The plan changed. Reload it before saving.');
+          const ids = new Set(current.preview.report.documents.map(d => d.id));
+          if (!Array.isArray(input.sources) || input.sources.length !== ids.size) throw new HttpError(400, 'Include each scanned file exactly once.');
+          const edits: PlanEdit[] = input.sources.map(value => {
+            if (!value || typeof value !== 'object' || Array.isArray(value)) throw new HttpError(400, 'Invalid source edit.');
+            const edit = value as Record<string, unknown>;
+            if (Object.keys(edit).some(k => !['id', 'name', 'categoryId'].includes(k)) || typeof edit.id !== 'string' || !ids.delete(edit.id)) throw new HttpError(400, 'Unknown or duplicate source.');
+            if (typeof edit.name !== 'string' || !edit.name.trim() || edit.name.length > 255 || /[\\/\u0000-\u001f\u007f]/.test(edit.name)) throw new HttpError(400, 'File names must contain 1–255 characters without slashes or control characters.');
+            if (edit.categoryId !== null && !categories.some(c => c.id === edit.categoryId)) throw new HttpError(400, 'Unknown destination category.');
+            return { id: edit.id, name: edit.name, categoryId: edit.categoryId } as PlanEdit;
+          });
+          current.edits = edits; current.version = (current.version ?? 0) + 1;
+          repository.saveRun(current); json(res, 200, publicRun(current)); return;
+        }
         if (match[2] === '/apply' && req.method === 'POST') {
+          const input = await body(req);
+          if (repository.session(token)?.owner !== owner) throw new HttpError(401, 'Session ended. Reload the dashboard.');
+          const latest = repository.run(run.id, owner);
+          if (!latest || !Number.isSafeInteger(input.version) || input.version !== (latest.version ?? 0)) throw new HttpError(409, 'The plan changed. Review the latest version before applying.');
+          Object.assign(run, latest);
           if (run.status === 'complete') { json(res, 200, publicRun(run)); return; }
           if (run.status !== 'ready' || !run.preview) throw new HttpError(409, 'This run is not ready to apply.');
-          const plan = planStructure(run.preview.report, run.preview.state);
+          const plan = organizationPlan(run.preview, run.edits);
           if (plan.blocked.length) throw new HttpError(409, plan.blocked.join('; '));
           if (active.has(owner) || applying) throw new HttpError(409, 'Another organization is active. Try again when it finishes.');
           applying = true; active.add(owner); run.status = 'applying'; repository.saveRun(run);
           job(run, async () => {
             try {
-              run.result = await applyOrganization(run.preview!, drive(owner), async event => { repository.event(run.id, event); });
+              run.result = await applyOrganization(run.preview!, drive(owner), async event => { repository.event(run.id, event); }, run.edits);
+              for (const edit of run.edits ?? []) {
+                const original = run.preview!.report.documents.find(d => d.id === edit.id)!;
+                if (edit.categoryId !== original.classification.categoryId) repository.saveCategoryOverride(owner, edit.id, edit.categoryId);
+              }
+              run.locations = await fileLocations(drive(owner), run.folderId,
+                [...run.preview!.report.documents.map(d => d.id), ...run.preview!.report.skipped.map(s => s.file.id)]);
               run.status = 'complete'; repository.saveRun(run);
             } finally { applying = false; }
           });

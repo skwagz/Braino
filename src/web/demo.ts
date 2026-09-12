@@ -24,6 +24,10 @@ export function demoDrive(repository: Repository, owner: string): OrganizingDriv
   const save = () => repository.saveDemo(owner, JSON.stringify([...files.values()]));
   if (!initial) save();
   return {
+    async rename(id, name) {
+      const file = files.get(id); if (!file) throw new Error('Demo file not found');
+      file.name = name; file.version = String(Number(file.version) + 1); save();
+    },
     async metadata(id) {
       const file = files.get(id); if (!file) throw new Error('Demo file not found');
       return structuredClone(file);

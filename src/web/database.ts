@@ -1,6 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { randomBytes, createHash } from 'node:crypto';
-import type { Preview, Event } from '../organizer.ts';
+import type { Preview, Event, PlanEdit } from '../organizer.ts';
+import type { CategoryId } from '../structure.ts';
 
 export interface Session {
   id: string; csrf: string; expiresAt: number; owner: string | null; email?: string;
@@ -9,7 +10,8 @@ export interface Session {
 export interface Run {
   id: string; owner: string; folderId: string; createdAt: number;
   status: 'scanning' | 'ready' | 'applying' | 'complete' | 'failed';
-  preview?: Preview; result?: { moved: number }; error?: string;
+  preview?: Preview; result?: { moved: number; renamed?: number }; error?: string;
+  edits?: PlanEdit[]; version?: number; locations?: Record<string, string>;
 }
 export const secret = () => randomBytes(32).toString('base64url');
 export const digest = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -23,6 +25,7 @@ export class Repository {
       CREATE TABLE IF NOT EXISTS runs (id TEXT PRIMARY KEY, owner TEXT NOT NULL, created INTEGER NOT NULL, data TEXT NOT NULL);
       CREATE INDEX IF NOT EXISTS runs_owner ON runs(owner, created);
       CREATE TABLE IF NOT EXISTS demo (owner TEXT PRIMARY KEY, data TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS category_overrides (owner TEXT NOT NULL, file TEXT NOT NULL, category TEXT, PRIMARY KEY(owner, file));
       CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY, run TEXT NOT NULL, data TEXT NOT NULL);`);
     this.db.prepare('DELETE FROM sessions WHERE expires < ?').run(Date.now());
     for (const row of this.db.prepare('SELECT data FROM runs').all()) {
@@ -76,7 +79,15 @@ export class Repository {
     return row ? String(row.data) : null;
   }
   saveDemo(owner: string, value: string) { this.db.prepare('INSERT OR REPLACE INTO demo VALUES (?, ?)').run(owner, value); }
+  categoryOverride(owner: string, file: string): { categoryId: CategoryId | null } | undefined {
+    const row = this.db.prepare('SELECT category FROM category_overrides WHERE owner = ? AND file = ?').get(owner, file);
+    return row ? { categoryId: row.category === null ? null : String(row.category) as CategoryId } : undefined;
+  }
+  saveCategoryOverride(owner: string, file: string, categoryId: CategoryId | null) {
+    this.db.prepare('INSERT OR REPLACE INTO category_overrides(owner, file, category) VALUES (?, ?, ?)').run(owner, file, categoryId);
+  }
   resetDemo(owner: string) {
+    this.db.prepare('DELETE FROM category_overrides WHERE owner = ?').run(owner);
     this.db.prepare('DELETE FROM demo WHERE owner = ?').run(owner);
     this.db.prepare('DELETE FROM events WHERE run IN (SELECT id FROM runs WHERE owner = ?)').run(owner);
     this.db.prepare('DELETE FROM runs WHERE owner = ?').run(owner);

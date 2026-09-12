@@ -15,6 +15,7 @@ export interface Classification {
   reason: string;
   evidence: string[];
   method: string;
+  destinationSource?: 'user';
 }
 export type Classifier = (input: { file: DriveFile; text: string }) => Promise<Classification>;
 
@@ -42,7 +43,7 @@ function validate(result: Classification, text: string): Classification {
       typeof result.reason !== 'string' || !result.reason.trim() ||
       typeof result.method !== 'string' || !result.method.trim() ||
       !Array.isArray(result.evidence) || result.evidence.some(e => typeof e !== 'string' || !e.trim() || !text.includes(e)) ||
-      (result.categoryId !== null && !result.evidence.length)) {
+      (result.categoryId !== null && !result.evidence.length && result.destinationSource !== 'user')) {
     throw new Error('Invalid classification or evidence not found in source');
   }
   return result;
