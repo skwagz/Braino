@@ -1,3 +1,5 @@
+import { sampleApi } from './sample-api';
+export const sampleMode = new URLSearchParams(window.location.search).get('demo') === '1' || new URLSearchParams(window.location.search).get('example') === 'wiki';
 import type { BrainoApi, Job, Plan, Workspace } from './types';
 export const categoryOptions = [
   { id: 'school', name: 'School' }, { id: 'meetings', name: 'Meetings' },
@@ -12,7 +14,7 @@ async function request<T>(path: string, body?: unknown): Promise<T> {
   if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
   return data as T;
 }
-export async function getSession() { session = await request<Session>('/api/status'); return session; }
+export async function getSession() { session = sampleMode ? { mode: 'demo', connected: true, csrfToken: '', config: { google: false, llm: false }, classifier: 'sample' } : await request<Session>('/api/status'); return session; }
 export async function logout() { await request('/api/logout', {}); session = undefined; }
 type Run = { id: string; folderId: string; createdAt: number; status: 'scanning' | 'ready' | 'applying' | 'complete' | 'failed'; error?: string; version: number; edits?: { id: string; name: string; categoryId: string | null }[]; locations?: Record<string, string>; result?: { moved: number; renamed?: number }; report?: { complete: boolean; documents: { id: string; name: string; url: string; classification: { categoryId: string | null; reason: string; evidence: string[] } }[]; folders: { categoryId: string; name: string }[]; review: string[]; errors: { message: string }[]; skipped: { file: { id: string; name: string; mimeType: string }; reason: string }[] }; plan?: { blocked: string[]; operations: { kind: string; fileId?: string }[] } };
 function planFor(run: Run): Plan | undefined {
@@ -32,7 +34,7 @@ function planFor(run: Run): Plan | undefined {
 }
 function jobFor(run: Run): Job { return { id: run.id, applied: run.status === 'complete', status: run.status === 'failed' ? 'failed' : ['ready', 'complete'].includes(run.status) ? 'completed' : 'running', progress: ['ready', 'complete'].includes(run.status) ? 100 : 0, message: run.error ?? (run.status === 'scanning' ? 'Reading and classifying your documents…' : run.status === 'applying' ? 'Applying your approved structure…' : 'Your structure is ready'), plan: planFor(run) }; }
 function workspaceFor(run: Run, history: Run[] = [run]): Workspace { return { folderId: run.folderId, sources: planFor(run)?.sources ?? [], index: planFor(run)?.index ?? [], pages: [], activity: history.map(r => ({ id: r.id, title: r.status === 'complete' ? 'Structure applied' : r.status === 'failed' ? 'Run failed' : r.status === 'ready' ? 'Structure previewed' : 'Run in progress', detail: r.error ?? (r.result ? `${r.result.moved} files moved · ${r.result.renamed ?? 0} renamed` : `${r.report?.documents.length ?? 0} documents scanned`), at: new Date(r.createdAt).toISOString() })) }; }
-export const api: BrainoApi = {
+export const api: BrainoApi = sampleMode ? sampleApi : {
   async savePlan(plan) { const run = await request<Run>(`/api/runs/${encodeURIComponent(plan.id)}/plan`, { version: plan.version, sources: plan.sources.map(({ id, name, categoryId }) => ({ id, name, categoryId })) }); const saved = planFor(run); if (!saved) throw new Error('Plan unavailable'); return saved; },
   async listFolders(parentId = 'root') { const data = await request<{ folders: { id: string; name: string }[] }>(`/api/folders?parentId=${encodeURIComponent(parentId)}`); return data.folders.map(f => ({ ...f, path: f.name, fileCount: 0, modified: '' })); },
   async startScan(folderId) { return jobFor(await request<Run>('/api/runs', { folderId })); },
@@ -53,4 +55,4 @@ export const api: BrainoApi = {
   async getWorkspace(folderId) { const { runs } = await request<{ runs: Run[] }>('/api/runs'); const history = runs.filter(r => r.folderId === folderId); const completed = history.find(r => r.status === 'complete'); return completed ? workspaceFor(completed, history) : history.length ? { folderId, sources: [], pages: [], activity: workspaceFor(history[0], history).activity } : null; },
 };
 
-export async function latestJob(folderId: string) { const { runs } = await request<{ runs: Run[] }>('/api/runs'); const run = runs.find(r => r.folderId === folderId); return run && run.status !== 'complete' ? jobFor(run) : undefined; }
+export async function latestJob(folderId: string) { if (sampleMode) return undefined; const { runs } = await request<{ runs: Run[] }>('/api/runs'); const run = runs.find(r => r.folderId === folderId); return run && run.status !== 'complete' ? jobFor(run) : undefined; }

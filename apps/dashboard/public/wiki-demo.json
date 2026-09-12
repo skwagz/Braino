@@ -1,0 +1,125 @@
+{
+  "folderId": "wiki-demo",
+  "sources": [
+    {
+      "id": "budget",
+      "name": "Launch budget",
+      "kind": "sheet",
+      "currentPath": "Example dataset",
+      "destination": "Example dataset",
+      "reason": "October launch budget: 5000 EUR.",
+      "modified": "Synthetic sample"
+    },
+    {
+      "id": "roadmap",
+      "name": "Product roadmap",
+      "kind": "document",
+      "currentPath": "Example dataset",
+      "destination": "Example dataset",
+      "reason": "Ada owns the October launch.",
+      "modified": "Synthetic sample"
+    }
+  ],
+  "pages": [
+    {
+      "id": "index",
+      "title": "Braino Index",
+      "summary": "Example roadmap and launch budget",
+      "sourceIds": [
+        "budget",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "id": "budget",
+          "name": "Launch budget",
+          "contentHash": "7de56367f566312d94d207950f0c7267f28d4f5e57dd4033e53f12880d68a6f0",
+          "facts": [
+            {
+              "text": "October launch budget: 5000 EUR.",
+              "quote": "October launch budget: 5000 EUR."
+            }
+          ]
+        },
+        {
+          "id": "roadmap",
+          "name": "Product roadmap",
+          "contentHash": "c7e2bbc9bd233730622cac42c89b16b8ce701fe6632692ef938f0e031a20e5e6",
+          "facts": [
+            {
+              "text": "Ada owns the October launch.",
+              "quote": "Ada owns the October launch."
+            }
+          ]
+        }
+      ],
+      "relatedIds": [
+        "entity:ada",
+        "topic:october%20launch"
+      ]
+    },
+    {
+      "id": "entity:ada",
+      "title": "Ada",
+      "summary": "Source-backed notes about Ada",
+      "sourceIds": [
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "id": "roadmap",
+          "name": "Product roadmap",
+          "contentHash": "c7e2bbc9bd233730622cac42c89b16b8ce701fe6632692ef938f0e031a20e5e6",
+          "facts": [
+            {
+              "text": "Ada owns the October launch.",
+              "quote": "Ada owns the October launch."
+            }
+          ]
+        }
+      ],
+      "relatedIds": [
+        "index",
+        "topic:october%20launch"
+      ]
+    },
+    {
+      "id": "topic:october%20launch",
+      "title": "October launch",
+      "summary": "Source-backed notes about October launch",
+      "sourceIds": [
+        "budget",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "id": "budget",
+          "name": "Launch budget",
+          "contentHash": "7de56367f566312d94d207950f0c7267f28d4f5e57dd4033e53f12880d68a6f0",
+          "facts": [
+            {
+              "text": "October launch budget: 5000 EUR.",
+              "quote": "October launch budget: 5000 EUR."
+            }
+          ]
+        },
+        {
+          "id": "roadmap",
+          "name": "Product roadmap",
+          "contentHash": "c7e2bbc9bd233730622cac42c89b16b8ce701fe6632692ef938f0e031a20e5e6",
+          "facts": [
+            {
+              "text": "Ada owns the October launch.",
+              "quote": "Ada owns the October launch."
+            }
+          ]
+        }
+      ],
+      "relatedIds": [
+        "index",
+        "entity:ada"
+      ]
+    }
+  ],
+  "activity": []
+}

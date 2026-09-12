@@ -1,5 +1,18 @@
 # Engineering lessons
 
+## 2026-09-12 Marketplace context
+
+- Correction: the user meant Google Workspace Marketplace when asking about a
+  marketplace plugin in a Drive discussion, not the host coding tool's marketplace.
+- Prevention: infer platform from the project and surrounding conversation; state
+  the assumed marketplace before doing platform-specific research.
+
+## 2026-09-12 Shell fallback
+
+- Failure: treated a broken default PowerShell runtime as a general inability to read local files.
+- Detection: exec_command reported a missing bundled pwsh.exe; explicit Windows cmd.exe succeeded.
+- Prevention: test an available alternative shell with login disabled before asking someone to paste repository files. Use a read-only directory listing as the tripwire.
+
 ## 2026-09-12 Existing UI and backend-only scope
 
 - Correction: the user needed backend work; a React dashboard already exists on

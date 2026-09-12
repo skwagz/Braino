@@ -8,6 +8,7 @@
     "evaluate": "node --use-system-ca --env-file-if-exists=.env examples/evaluate-classifier.ts",
     "typecheck": "tsc",
     "demo": "node examples/demo.ts",
+    "wiki:demo": "node examples/wiki.ts",
     "structure": "node examples/structure.ts",
     "organize": "node --use-system-ca --env-file-if-exists=.env src/cli.ts",
     "auth": "node --use-system-ca --env-file-if-exists=.env src/auth/cli.ts"

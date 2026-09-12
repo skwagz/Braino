@@ -25,6 +25,7 @@ import {
 import { api, getSession, logout, latestJob, categoryOptions, type Session } from "./api";
 import type { Folder, Job, Plan, Source, WikiPage, Workspace } from "./types";
 import "./style.css";
+import { Landing } from "./landing";
 
 type View = "overview" | "structure" | "wiki" | "activity";
 function App() {
@@ -32,7 +33,7 @@ function App() {
   const isDemo = session?.mode === "demo";
   const canScan = !!session?.connected && (isDemo || session.config.llm);
   const [parentId, setParentId] = useState("root");
-  const [view, setView] = useState<View>("overview");
+  const [view, setView] = useState<View>(new URLSearchParams(window.location.search).get('example') === 'wiki' ? 'wiki' : 'overview');
   const [folders, setFolders] = useState<Folder[]>([]);
   const [folder, setFolder] = useState<Folder>();
   const [picker, setPicker] = useState(false);
@@ -729,6 +730,11 @@ function App() {
               <p>Find files by name, category, description, evidence or folder location. Locations reflect the last scan or completed changes; scan again to refresh external changes.</p>
               <SearchBox value={query} onChange={setQuery} />
               <div className="wiki-grid">
+                {pages.filter(p => `${p.title} ${p.summary}`.toLowerCase().includes(query.toLowerCase())).map(p => (
+                  <button className="wiki-card" key={p.id} onClick={() => setDetail(p)}>
+                    <BookOpen size={23} /><h3>{p.title}</h3><p>{p.summary}</p><span>{p.sourceIds.length} sources</span>
+                  </button>
+                ))}
                 {indexed.map(s => <article className="wiki-card index-card" key={s.id}>
                   <button className="text-button" onClick={() => setDetail(s)}><FileText size={20} /><h3>{s.name}</h3></button>
                   <p>{s.reason}</p>
@@ -852,6 +858,8 @@ function App() {
           "sourceIds" in detail ? (
             <>
               <p>{detail.summary}</p>
+              {detail.evidence?.map(source => <section key={source.id}><h3>{source.name}</h3>{source.facts.map((fact, i) => <div key={i}><p>{fact.text}</p><blockquote>{fact.quote}</blockquote></div>)}</section>)}
+              {detail.relatedIds && <><h3>Related pages</h3>{detail.relatedIds.map(id => pages.find(p => p.id === id)).filter((p): p is WikiPage => !!p).map(p => <button key={p.id} onClick={() => setDetail(p)}>{p.title}</button>)}</>}
               <h3>Source files</h3>
               <FileList
                 sources={sources.filter((s) => detail.sourceIds.includes(s.id))}
@@ -969,4 +977,5 @@ function FileList({
     </div>
   );
 }
-createRoot(document.getElementById("root")!).render(<App />);
+const workspaceRoute = /^\/app\/?$/.test(window.location.pathname) || new URLSearchParams(window.location.search).has('example');
+createRoot(document.getElementById("root")!).render(workspaceRoute ? <App /> : <Landing />);

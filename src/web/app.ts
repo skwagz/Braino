@@ -107,7 +107,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'no-referrer');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
     try {
       if (req.headers.host !== origin.host) throw new HttpError(403, 'Unexpected host');
       const url = new URL(req.url ?? '/', origin);
@@ -158,7 +158,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
           created.session.owner = owner; created.session.email = login.account.email;
           repository.saveSession(created.session); cookie(res, created.token);
         } finally { active.delete(owner); }
-        res.writeHead(302, { Location: '/' }).end(); return;
+        res.writeHead(302, { Location: '/app' }).end(); return;
       }
       if (!session.owner) throw new HttpError(401, 'Connect Google Drive before scanning.');
       const owner = session.owner;
