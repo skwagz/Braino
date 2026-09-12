@@ -1,8 +1,40 @@
-# Braino scanning and sorting core
+# Braino
 
 Project context: [product brief](HANDOFF.md), [feasibility research and validation plan](FEASIBILITY.md), and [shared agent instructions](AGENTS.md). Read the research status update before relying on its dated implementation audit.
 
-## Run against Google Drive
+Read documents, review their categories, and organize a selected Drive folder.
+
+## Run the backend
+
+```sh
+npm ci
+npm start
+```
+
+Check **http://127.0.0.1:43821/health**. This API-only server uses synthetic
+Drive data by default and makes no Google or LLM calls. The existing React UI is
+in [apps/dashboard on codex/ui-dashboard](https://github.com/skwagz/Braino/tree/codex/ui-dashboard/apps/dashboard).
+Integration with its API contract remains pending.
+
+For real accounts, follow [live setup and deployment](docs/deployment.md): create
+Google OAuth credentials, add `OPENAI_API_KEY` locally, set `BRAINO_MODE=live`,
+restart. Dashboard login integration remains pending. The live backend uses the semantic
+LLM adapter; it will not silently fall back to keyword rules. Selected document
+content is sent to OpenAI, and usage charges may apply.
+
+- [Architecture](docs/architecture.md)
+- `npm run typecheck`: TypeScript checks. Automated test files have been removed.
+- `npm run evaluate`: honest offline classification baseline (7/10 on the included
+  challenging corpus). `npm run evaluate -- --llm` explicitly runs a paid live
+  evaluation with synthetic data once a key is configured.
+
+The web backend stores per-user sessions, previews and move events in SQLite with
+separate encrypted Google tokens. Use one server instance and persistent storage;
+see deployment instructions before public hosting. OAuth credentials and model
+keys are not created by the application. Real login, model accuracy and Drive
+moves still require live validation with your configured account.
+
+## Command-line workflow
 
 Node 24+ is required. Follow the [Google login setup](docs/google-login.md) to
 create your OAuth client, run `npm run auth -- init`, fill in the client settings
@@ -69,7 +101,7 @@ folder, sends Docs/Sheets text to an injected extractor, groups the returned
 topics/entities, preserves citations, and produces a write plan. It never moves
 or modifies original files.
 
-Run `npm test` and `npm run demo`. The demo uses fixtures, not live Drive or AI.
+Run `npm run typecheck` and `npm run demo`. The demo uses fixtures, not live Drive or AI.
 
 ## Connect your components
 
@@ -112,11 +144,10 @@ in the UI before publishing. Folder-limit exhaustion means some descendants have
 not been enumerated. Listing is fully paginated by the adapter, so the file cap
 limits extraction work, not listing API calls.
 
-The application has a Drive API adapter, explicit apply workflow, local journal
-and single-account Google login/refresh. A hosted multi-user service, LLM provider
-and extension UI remain separate integrations. Classification still uses English
-keyword rules, not an LLM. OAuth uses the official Google authentication library;
-the scanning and planning core remains dependency-free.
+The CLI retains its single-account login store and English rules classifier. The
+web application adds per-user accounts, SQLite run records and the LLM classifier
+in live mode. Its login store is separate from the CLI's. OAuth uses the official
+Google authentication library; the scanning and planning core remains dependency-free.
 
 ## Connector-backed scanner smoke test
 

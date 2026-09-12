@@ -4,15 +4,18 @@ Updated: 12 September 2026
 
 ## System status
 
-Braino is a local TypeScript application running on Node.js 24+. Users connect
-Google Drive, scan one folder, review content-based category assignments and
-explicitly apply moves. Google login uses a local callback server; the organizer
-is currently operated through command-line tools.
+Braino is a TypeScript application running on Node.js 24+. Users connect Google
+Drive, scan one folder, review content-based category assignments and explicitly
+apply moves. The authenticated backend and CLI are implemented. Integration with
+the existing React dashboard on codex/ui-dashboard remains pending.
 
 Implemented: Google OAuth login/refresh/logout, encrypted token storage, Drive
-and Sheets readers, classification rules, folder planning, verified moves, local
-locking and an event journal. The extension UI, hosted application API, semantic
-LLM classifier and cited workspace chat are not implemented.
+and Sheets readers, semantic LLM adapter, offline demo rules, folder planning,
+verified moves, persistent sessions/runs/events and isolated account token files.
+Optional Docker packaging remains local and is excluded from this backend push; cited
+workspace chat is not implemented.
+Live external validation and actual hosting remain pending user credentials and
+a deployment environment.
 
 ## Product behavior
 
@@ -24,7 +27,7 @@ idea with the user's requested organization of original documents.
 
 ```mermaid
 flowchart TD
-  UI[CLI: preview or apply] --> Service[Organization service]
+  UI[Browser dashboard or CLI] --> Service[Organization service]
   Login[Google login command] --> Consent[Google account and consent screen]
   Consent --> Callback[Loopback OAuth callback]
   Callback --> Tokens[Encrypted tokens and automatic refresh]
@@ -34,7 +37,7 @@ flowchart TD
   Reader --> APIs[Google Drive and Sheets APIs]
   Scanner --> Classifier[Content classifier]
   Classifier --> Rules[Offline rules baseline]
-  Classifier -. future .-> LLM[LLM adapter]
+  Classifier -->|live web mode| LLM[OpenAI structured-output adapter]
   Scanner --> Structure[Category assignments and review list]
   Structure --> Planner[Folder and move planner]
   Metadata[Current Drive folders and parents] --> Planner
@@ -52,8 +55,8 @@ flowchart TD
 | Type validation | Strict TypeScript with no emit | Check interfaces without a build directory |
 | OAuth | Official Google authentication library | Code exchange, identity verification and token refresh |
 | API transport | Node fetch through the Drive adapter | Small, mockable Google API boundary |
-| Classification | English content keyword rules | Runnable baseline behind a replaceable classifier interface |
-| Persistence | Private JSON artifacts and JSONL events | Inspectable local preview and execution history |
+| Classification | OpenAI structured output for live web scans; rules for demo/CLI | Semantic classification with explicit offline baseline |
+| Persistence | SQLite web state; JSON/JSONL CLI artifacts | Durable owner-scoped previews and execution history |
 | Credential storage | AES-256-GCM encryption | Store tokens separately from their local encryption key |
 | Tests | Node test runner | Domain, adapter and callback tests |
 
@@ -67,6 +70,12 @@ flowchart TD
 | `src/organizer.ts` | Versioned preview, stale-state checks, ancestry validation and apply orchestration |
 | `src/cli.ts` | Preview/apply commands, local folder lock, private artifacts and durable event journal |
 | `src/auth/` | Local Google OAuth flow, callback session validation, encrypted login storage and automatic token refresh |
+| `src/classifier.ts` | Bounded OpenAI Responses calls, strict output schema and exact source evidence checks |
+| `src/web/app.ts` | Owner-scoped API, browser OAuth, CSRF, folder browsing, asynchronous scan and apply jobs |
+| `src/web/database.ts` | SQLite sessions, runs, event journal and interrupted-run recovery |
+| `src/web/demo.ts` | Persistent synthetic sample Drive per browser session |
+| `src/server.ts` | Configuration, startup, single-instance data lock and shutdown |
+| `apps/dashboard` (remote UI branch) | Existing React dashboard; integration pending |
 | `examples/structure.ts` | Runnable demo and real connector-snapshot classification preview |
 | `examples/connector-scan.ts` | Verify delivery of connector-retrieved text into the scanner |
 | `test/` | Traversal, classification, validation and rerun behavior |
@@ -81,7 +90,7 @@ assignments instead of using the scanner's legacy wiki pages. The small amount
 of unused wiki assembly is an acceptable current tradeoff; separate a shared
 scanner only when a second production caller needs independent lifecycle control.
 
-## Authentication flow
+## CLI authentication flow
 
 1. A developer creates a Google OAuth Web application client and registers
    `http://127.0.0.1:43821/oauth/callback`.
@@ -237,15 +246,17 @@ an identity nonce. Responses use no-store headers. Tokens are not rendered or
 written into reports. Document contents are untrusted data; future LLM adapters
 must never follow embedded instructions to call tools or change permissions.
 
-## Target extension and backend
+## Target dashboard and backend
 
-The Chrome extension is the planned user-facing shell inside Google Drive. It
-will reuse the domain modules through an authenticated backend. Refresh tokens
-and LLM keys belong on that backend, not in the content script.
+The existing React dashboard must be integrated with the backend. The duplicate
+local dashboard and extension launcher have been removed.
+Refresh tokens and model keys stay on the backend. The diagram below includes
+a future durable job queue; execution currently uses in-process jobs with durable
+run records and restart failure recovery.
 
 ```mermaid
 flowchart LR
-  Extension[Drive extension panel] --> API[Authenticated backend API]
+  Dashboard[Existing React dashboard] --> API[Authenticated backend API]
   API --> Auth[Per-user Google connection]
   API --> Runs[Run records and job queue]
   Runs --> Worker[Organization worker]
@@ -255,32 +266,40 @@ flowchart LR
   Runs --> DB[Database, shared locks and event journal]
 ```
 
-The following routes are proposed boundaries, not implemented application APIs:
+Current browser API boundaries:
 
 | Endpoint | Responsibility |
 | --- | --- |
-| `GET /auth/google/start` | Start consent for the authenticated application user |
+| `GET /api/status` | Establish browser session and return mode, connection and CSRF token |
+| `GET /auth/google/start` | Start Google consent tied to the browser session |
 | `GET /auth/google/callback` | Verify the callback and save that user's grant |
-| `GET /connection` | Return connection state without exposing tokens |
-| `DELETE /connection` | Disconnect and revoke access |
-| `POST /runs` | Start a bounded scan of an authorized folder |
-| `GET /runs/:id` | Return progress, errors and classification preview |
-| `POST /runs/:id/apply` | Apply a reviewed plan after fresh preflight |
+| `POST /api/logout` | Disconnect and revoke access, invalidating account sessions |
+| `GET /api/folders` | Browse direct subfolders for the signed-in account |
+| `POST /api/runs` | Start a bounded scan of an authorized folder |
+| `GET /api/runs`, `GET /api/runs/:id` | Return only the caller's run history and preview |
+| `POST /api/runs/:id/apply` | Apply a stored, reviewed plan after fresh preflight |
+| `GET /api/runs/:id/events` | Return the owner's durable execution events |
+| `POST /api/demo/reset` | Reset only the caller's synthetic workspace |
 
-Every run must belong to an application user and a Google account. Workers need
-durable jobs, shared per-folder locks and reconciliation for uncertain operations.
-The UI should display folder assignments, evidence, review items and partial
-failure outcomes. CLI artifacts are not a substitute for a multi-user database.
+Google subjects identify live run owners. Demo sessions have isolated synthetic
+owners. Session cookies are HttpOnly and SameSite; hosted HTTPS adds Secure. Every
+mutation checks Origin and the session's CSRF token. OAuth state is single-use,
+and the session rotates after login. Run lookups include owner predicates; clients
+cannot submit executable plans. Tokens are encrypted in per-owner account files.
+
+SQLite stores sessions, previews and journal events. In-process ownership locks
+allow one active run per account and serialize applies globally to avoid overlap.
+An exclusive data-directory lock limits the service to one instance. Interrupted
+scans/applies become failed on restart; no writes are replayed blindly. A future
+multi-worker service needs a durable queue and distributed coordination.
 
 ## Integration still required
 
-- Extension UI and backend run lifecycle: scan, classify, preview, apply, complete
-  or failed. No HTTP service is implemented yet.
-- Hosted multi-user OAuth sessions and token isolation. A local single-account
-  Google OAuth flow and token refresh now exist, alongside the paginated Drive
-  reader and all-grid-worksheet Sheets reader. Docs currently use text export;
+- Live verification of browser Google sessions, token refresh and tenant isolation
+  against real accounts. Local/mocked isolation tests pass. Docs use text export;
   multi-tab fidelity, embedded objects and OCR are outside this implementation.
-- Semantic LLM adapter and classification evaluation set.
+- Live evaluation of the implemented semantic adapter. Offline rules achieve 7/10
+  on the included challenging corpus, illustrating why they are demo-only in the web app.
 - Shared persistent run state, cross-host concurrency and automated reconciliation.
   Metadata reads, folder creation, moves, a local journal and local locking exist.
 - The move-versus-shortcut product choice: current plans describe moves, but this
@@ -294,11 +313,12 @@ Raw document text need not be persisted by the core; the caller owns its retenti
 
 The local auth flow is documented in [Google login setup](google-login.md).
 The token key is kept in `.env` and the encrypted credential file in `private-data`.
-This is one local account per checkout, not a multi-tenant authentication backend.
+This describes the CLI store. The web server instead stores owner-isolated tokens
+under `private-data/web/accounts`, with SQLite sessions and runs in that directory.
 
 ## Validation and next delivery steps
 
-The current suite has 29 passing tests covering traversal/caps, classification,
+The suite covers traversal/caps, classification,
 folder reuse, source versions, ancestry, API pagination, worksheet reading,
 readback, journal failures, encrypted storage, refresh and OAuth callbacks.
 Run `npm test` and `npm run typecheck`.
@@ -310,12 +330,11 @@ OAuth or real Drive moves.
 
 Next delivery steps:
 
-1. Configure Google Cloud and verify real login, refresh and logout.
-2. Verify preview, apply and a no-change rerun in a non-sensitive test folder.
-3. Add a semantic `Classifier` adapter and evaluate it against labeled documents.
-4. Implement backend run APIs, per-user state and durable execution.
-5. Connect the extension's scan, review and apply interface.
-6. Add the separate linked knowledge-base and cited-chat workflow if retained.
+1. Configure Google Cloud and OpenAI keys; verify real login, refresh and logout.
+2. Verify preview, apply and a no-change rerun in a non-sensitive Drive test folder.
+3. Run the semantic evaluation with the configured model and inspect errors.
+4. Deploy one persistent instance behind HTTPS and complete Google verification.
+5. Add the separate linked knowledge-base and cited-chat workflow if retained.
 
 ## API references
 

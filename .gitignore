@@ -5,3 +5,4 @@ node_modules/
 connector-scan-report.json
 *connector-snapshot*.json
 private-data/
+.braino/
