@@ -15,8 +15,8 @@ async function main() {
     ? { clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       key, redirectUri: `${origin}/oauth/callback` } : undefined;
   if (google && !/^[a-f0-9]{64}$/i.test(google.key)) throw new Error('Invalid BRAINO_TOKEN_KEY; use auth init');
-  const config: WebConfig = { mode, origin, dataDir, google, apiKey: process.env.OPENAI_API_KEY,
-    model: process.env.OPENAI_MODEL };
+  const config: WebConfig = { mode, origin, dataDir, google, apiKey: process.env.OPENROUTER_API_KEY,
+    model: process.env.OPENROUTER_MODEL };
   await mkdir(dataDir, { recursive: true });
   const lockPath = join(dataDir, 'server.lock');
   const lock = await open(lockPath, 'wx').catch(() => { throw new Error('Server data directory is locked. Stop the existing server, or inspect the stale server.lock after a crash.'); });

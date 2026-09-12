@@ -29,9 +29,9 @@ or model requests. The existing React dashboard integration remains pending.
 3. Run `npm run auth -- init` to prepare `.env` and generate a random
    `BRAINO_TOKEN_KEY`. Keep the resulting 64-character hex key stable. Fill in
    `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` locally.
-4. Create an API key in your OpenAI API account and put it in `.env` as
-   `OPENAI_API_KEY`. Set `OPENAI_MODEL` to a model available to your project;
-   the default is `gpt-5.4-nano`. Semantic classification sends selected document
+4. Create an API key in your OpenRouter API account and put it in `.env` as
+   `OPENROUTER_API_KEY`. Set `OPENROUTER_MODEL` to a model available to your project;
+   the default is `openai/gpt-4o-mini`. Semantic classification sends selected document
    content to the API and can incur usage charges.
 5. Add `BRAINO_MODE=live` and
    `BRAINO_BASE_URL=http://127.0.0.1:43821` to `.env`, restart `npm run start`,
@@ -95,7 +95,7 @@ origin. Do not trust arbitrary forwarded headers to choose the public origin.
 | `BRAINO_DATA_DIR` | Persistent web state, local default `private-data/web` |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google web OAuth client |
 | `BRAINO_TOKEN_KEY` | Stable 64-hex encryption key for saved Google tokens |
-| `OPENAI_API_KEY`, `OPENAI_MODEL` | Server-side semantic classifier configuration |
+| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` | Server-side semantic classifier configuration |
 
 ## Operations and recovery
 

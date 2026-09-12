@@ -1,174 +1,183 @@
 # Braino
 
-Project context: [product brief](HANDOFF.md), [feasibility research and validation plan](FEASIBILITY.md), and [shared agent instructions](AGENTS.md). Read the research status update before relying on its dated implementation audit.
+Braino reads a selected Google Drive folder, uses an LLM to suggest document
+categories, and lets you review names and destinations before applying changes.
+Its Knowledge wiki is a searchable file index showing where each file is located.
 
-Read documents, review their categories, and organize a selected Drive folder.
+This branch includes the React dashboard and backend. The planned entry point is
+a Chrome extension: users sign in with Google, approve Drive access, and use
+Braino. The native Drive add-on idea was dropped. The extension is not built yet.
+Google OAuth credentials and the OpenRouter key are configured once by the app
+operator on the backend; end users do not enter API keys or OAuth client secrets.
 
-## Run the backend
+## Start locally
+
+Install Node.js 24 or later, then run from the repository root:
 
 ```sh
 npm ci
+npm run auth -- init
+npm run build
 npm start
 ```
 
-Check **http://127.0.0.1:43821/health**. This API-only server uses synthetic
-Drive data by default and makes no Google or LLM calls. The existing React UI is
-in [apps/dashboard on codex/ui-dashboard](https://github.com/skwagz/Braino/tree/codex/ui-dashboard/apps/dashboard).
-Integration with its API contract remains pending.
+Open http://127.0.0.1:43821. The backend serves both the dashboard and API.
+`npm run build` installs the dashboard dependencies and builds its assets.
+Rebuild after changing frontend code; restart after changing backend code or `.env`.
+Docker is optional and is not needed for these commands.
 
-For real accounts, follow [live setup and deployment](docs/deployment.md): create
-Google OAuth credentials, add `OPENAI_API_KEY` locally, set `BRAINO_MODE=live`,
-restart. Dashboard login integration remains pending. The live backend uses the semantic
-LLM adapter; it will not silently fall back to keyword rules. Selected document
-content is sent to OpenAI, and usage charges may apply.
+The default `BRAINO_MODE=demo` uses synthetic documents and keyword rules.
+It does not contact Google or the LLM and does not modify your real Drive.
 
-- [Architecture](docs/architecture.md)
-- `npm run typecheck`: TypeScript checks. Automated test files have been removed.
-- `npm run evaluate`: honest offline classification baseline (7/10 on the included
-  challenging corpus). `npm run evaluate -- --llm` explicitly runs a paid live
-  evaluation with synthetic data once a key is configured.
+## Use the dashboard
 
-The web backend stores per-user sessions, previews and move events in SQLite with
-separate encrypted Google tokens. Use one server instance and persistent storage;
-see deployment instructions before public hosting. OAuth credentials and model
-keys are not created by the application. Real login, model accuracy and Drive
-moves still require live validation with your configured account.
+1. Choose **Braino demo documents**, or connect Google in live mode and select a
+   folder. **Manage folders** can list children of a parent folder ID.
+2. Select **Organize workspace** to read and classify its supported documents.
+3. In **Folder structure**, review the evidence and edit file names or destination
+   categories. Choose **Keep current location** when a file should not move.
+4. Select **Review & apply** to save the proposed edits, then **Apply structure**
+   to approve the actual changes. Saving a plan alone does not change Drive.
+5. Open **Knowledge wiki** to search names, categories, classification descriptions,
+   supporting excerpts and folder paths. Open an original file or select **View PDF**.
+6. Inspect **Activity** for results. Reloading preserves saved work. Scan again to
+   refresh the index after external changes. Applied manual categories persist.
 
-## Command-line workflow
+The demo contains six readable documents and one PDF. Its initial plan moves five
+files and leaves the uncertain document in place. Renaming and category editing
+also work in demo mode. A repeat scan after applying should propose no duplicate
+moves, including for saved manual category choices.
 
-Node 24+ is required. Follow the [Google login setup](docs/google-login.md) to
-create your OAuth client, run `npm run auth -- init`, fill in the client settings
-locally, then run `npm run auth -- login`. Open the printed link and approve
-access on Google's page. No manual access-token copying is needed. Connecting
-Google Drive to Codex does not authenticate this separate application.
+## Configure live Google Drive and AI
 
-```sh
-npm run organize -- preview YOUR_FOLDER_ID first-preview.json
-npm run organize -- apply first-preview.json
+`npm run auth -- init` creates `.env`, generates a token-encryption key and adds
+missing settings without replacing existing values. `.env.example` documents the
+settings; put real credentials only in your ignored local `.env`.
+
+1. Create a Google Cloud project and enable the **Google Drive API** and
+   **Google Sheets API**. Configure the OAuth consent screen and add your account
+   as a test user while the app is in testing.
+2. Create an OAuth client of type **Web application**. Register this exact redirect:
+   `http://127.0.0.1:43821/oauth/callback`.
+3. Put the Google client ID and secret in `.env`.
+4. Create an [OpenRouter API key](https://openrouter.ai/settings/keys) in your own
+   API project and put it in `OPENROUTER_API_KEY`. Configure API billing and model
+   access for that project. Braino cannot generate this credential for you.
+5. Set `BRAINO_MODE=live`, restart `npm start`, and select **Connect Google Drive**.
+   Grant access, select a small test folder and run the review/apply workflow.
+
+```dotenv
+BRAINO_MODE=live
+BRAINO_BASE_URL=http://127.0.0.1:43821
+BRAINO_HOST=127.0.0.1
+PORT=43821
+BRAINO_DATA_DIR=private-data/web
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
+GOOGLE_REDIRECT_URI=http://127.0.0.1:43821/oauth/callback
+# Keep the BRAINO_TOKEN_KEY generated by auth init unchanged.
+OPENROUTER_API_KEY=your-openrouter-api-key
+OPENROUTER_MODEL=openai/gpt-4o-mini
 ```
 
-`preview` reads documents and writes `private-data/first-preview.json`. It prints
-category assignments and proposed operations. Inspect that file before using
-`apply`, which creates category folders and **moves the original documents**.
-Unclear documents stay in place. Use a test folder for the first live run.
+These are placeholders, not usable credentials. Never commit a real API key or
+paste it into frontend code. `OPENROUTER_API_KEY` is the implemented LLM setting;
+there is no separate `LLM_API_KEY` variable. The current adapter uses OpenRouter's
+chat completions API. Another provider would need an adapter, not just a different key.
+The default model supports structured outputs; see the
+[official model documentation](https://openrouter.ai/docs/guides/features/structured-outputs).
 
-The default scan cap is 30 supported files. Incomplete scans (including empty or
-unreadable documents) block apply. No files are silently dropped to force a run
-through. Choose a smaller test folder or resolve the reported source issues.
+Live dashboard scans require the LLM key and do not silently fall back to keyword
+rules. Selected document text is sent to OpenRouter and API usage can incur charges.
+Connecting Drive to Codex does not connect this separate application to Drive.
 
-Preview filenames cannot overwrite an existing preview; use a new name for a new
-scan. The saved Google login refreshes access tokens automatically. Access tokens
-are never written to reports or passed as CLI arguments. `npm run auth -- logout`
-revokes access and removes the local login.
+The web server derives its callback from `BRAINO_BASE_URL`; `GOOGLE_REDIRECT_URI`
+is used by the separate CLI login. Keep them aligned for local development. Do
+not run the CLI login server and dashboard backend on the same port concurrently.
 
-Reading existing files requires appropriate read access. Moving originals needs
-write access to those specific files: `drive.readonly` alone cannot move them,
-and `drive.file` covers only files authorized to the app. Choosing a folder is
-not a blanket grant to modify every existing descendant. See Google's
-[scope definitions](https://developers.google.com/workspace/drive/api/guides/api-specific-auth).
-The reader uses the Sheets API for all grid worksheets; Docs use Drive text export.
-Images and embedded objects are not OCR'd, and full fidelity of multi-tab Docs
-is not guaranteed by this text-export adapter.
+## How it works
 
-The CLI stores journals and previews in ignored `private-data/`. A local lock
-prevents two applies for the same folder from this checkout. If the process
-crashes, check the journal and Drive state before removing its stale `.lock`
-file, then generate a fresh preview. There is no automatic rollback. Do not run
-multiple checkouts or hosts against the same folder concurrently.
+1. **Authenticate:** Google OAuth connects an account. The server stores refresh
+   credentials encrypted and gives the browser a session cookie.
+2. **Read:** the scanner traverses the selected folder. Google Docs are exported
+   as text; Google Sheets grid worksheets are read through the Sheets API.
+3. **Classify:** the live LLM returns a category, explanation and exact evidence.
+   The backend validates its output. Unclear documents remain for review.
+4. **Plan:** the server saves a versioned preview. You can rename files or choose
+   School, Meetings, Finance, Business, Personal, or keep the current location.
+5. **Apply:** the server checks plan ownership, version, current file versions and
+   parents before writes. It creates category folders, moves and renames files,
+   checks the results, and records operation history.
+6. **Index:** saved scan results and post-apply folder paths feed the searchable
+   wiki view. Index search is currently text matching, not a separate LLM query.
 
-## Content-based folder structuring
+| Component | Code |
+| --- | --- |
+| Existing React dashboard and API adapter | `apps/dashboard/src/` |
+| AI classifier and evidence validation | `src/classifier.ts` |
+| Scanner and category planning | `src/brain.ts`, `src/structure.ts` |
+| Preview, edits, rename/move orchestration | `src/organizer.ts` |
+| Google Drive and Sheets access | `src/drive.ts` |
+| Sessions, runs, edits and saved categories | `src/web/app.ts`, `src/web/database.ts` |
+| OAuth and encrypted tokens | `src/auth/` |
+| Server entry point | `src/server.ts` |
 
-Run `npm run structure` for a demo: an untitled homework document goes to School,
-a misleadingly named document containing meeting minutes goes to Meetings, and
-unclear content stays in a review list. This prints a preview and does not change Drive.
+## PDFs and index scope
 
-Run `npm run structure -- <connector-snapshot.json>` to classify real retrieved
-text in the snapshot format below. A snapshot provides classification only; live
-parent metadata is required before planning real moves. Output can contain source
-excerpts, so keep saved results private.
+PDFs appear in the selected folder's index with their name and location. **View
+PDF** opens the real document in Google Drive's viewer, subject to your Google
+permissions. Demo mode opens a generated sample PDF. PDF text extraction, OCR,
+AI classification and PDF renaming through the plan are not implemented.
 
-`structureFolder({ folderId, drive, classify? })` in `src/structure.ts` returns
-folder assignments, evidence, review items and scan errors. `planStructure(report,
-{ sourceFolderId, folders, parents })` creates a folder/move preview with current
-parent checks and rerun deduplication. The default classifier uses conservative
-English content keywords; supply a `Classifier` adapter for an LLM.
+The index describes scanned files in the selected folder, not everything in the
+account. Paths reflect the last scan or successful apply. The wiki does not yet
+publish new Google Docs, provide semantic search or answer questions with an LLM.
+Descriptions are classification explanations, not full document summaries.
 
-See [architecture and integration contracts](docs/architecture.md). The structuring
-module only plans changes; `organize apply` executes them through the Drive adapter.
+## Chrome extension direction
 
-A dependency-free TypeScript core, runnable on Node 24+. It scans a selected
-folder, sends Docs/Sheets text to an injected extractor, groups the returned
-topics/entities, preserves citations, and produces a write plan. It never moves
-or modifies original files.
+The extension will open Braino from Drive and launch the backend's Google sign-in
+flow. Users choose their account and approve access. Existing authentication and
+file operations can be reused, but the extension launcher and its sign-in handoff
+still need implementation and live testing. No Workspace add-on is planned.
 
-Run `npm run typecheck` and `npm run demo`. The demo uses fixtures, not live Drive or AI.
+## Verification and current limits
 
-## Connect your components
+```sh
+npm run typecheck
+npm run build
+npm run evaluate
+```
 
-Call `scanAndSort({ folderId, drive, extract })` from `src/brain.ts`.
+The offline evaluation measures keyword rules, not AI quality. To explicitly run
+an evaluation against the configured LLM with synthetic data and API charges:
 
-- `drive.listChildren(folderId)`: return every direct, non-trashed child, handling
-  Drive pagination in your adapter. The core traverses nested folders, ignores
-  shortcuts and unsupported types, deduplicates IDs and excludes generated output.
-- `drive.readText(file)`: export Docs as text; read Sheets into text with sheet
-  names and rows preserved. Ensure all worksheet tabs are included in the adapter.
-- `extract({ file, text })`: your teammate's extraction function returns
-  `{ summary: string, topics: string[], entities: string[] }`. Treat file content
-  as untrusted evidence, never instructions. Keep API credentials on the backend.
-- `planWrites(report, existing)`: supply existing output `{ key, fileId }` records
-  for this source folder. Returns create/update operations with page data.
+```sh
+npm run evaluate -- --llm
+```
 
-Each source includes its original Drive URL. Each page has stable logical keys
-and links to related pages sharing a source. Sorting merges labels by normalized
-whitespace and case only; it does not infer synonyms or resolve ambiguous people.
-The extractor determines semantic grouping. Unclassified sources remain in Index.
+The dashboard demo has been checked for scanning, edits, apply, reload, searchable
+locations, PDF links, mobile layout and repeat scans. Automated test files were
+removed at the user's request. These checks do not prove real OAuth, model access
+or live Drive writes; those still require configured credentials and a test folder.
 
-## Writer contract
+- Default scan limit: 30 supported documents. Incomplete scans block apply.
+- Shared drives, OCR and full-fidelity multi-tab Docs extraction are not supported.
+- Destinations are the five listed categories; arbitrary folder paths are not supported.
+- Google consent requests broad Drive access for editing existing files. Selecting
+  a folder limits Braino's operations, not the OAuth grant.
+- Run one backend instance per persistent data directory. SQLite stores sessions,
+  previews and journals; encrypted Google tokens are stored separately under it.
+- File operations are sequential, not transactional. A failed run can have partial
+  changes. Inspect Activity and Drive before rescanning; there is no automatic undo.
+- Public hosting needs HTTPS, persistent storage and applicable Google OAuth and
+  extension store review. Do not treat the local demo as a deployed extension.
 
-Create a `Braino` output folder and mark generated files/folders with the custom
-property `brainoManaged=true`. Also pass known output folder IDs to the scanner.
-Persist each page's key and source folder ID as writer metadata. Scope existing
-page lookup to that source folder; duplicate keys are rejected.
+If startup reports a missing dashboard, run `npm run build`. If it reports a used
+port, stop the other server or configure a consistent port, base URL and OAuth
+redirect. If it reports a data lock after a crash, verify the original process is
+stopped before removing only its stale `server.lock`; preserve the database.
 
-The writer should first create missing Docs, resolve all logical page keys to
-actual Doc URLs, then render their content and links. Serialize runs per source
-folder and reconcile metadata after interrupted writes to prevent duplicates.
-The core supplies a plan only; atomic writes and concurrent-run safety belong to
-your Drive writer. Existing stale pages are not deleted automatically.
-
-Defaults: 30 attempted supported files, 100 folders, 100,000 characters per file.
-Unsupported files are reported without failing the run. Read/extraction failures,
-oversized sources and reached limits mark the report incomplete and block the
-write plan, protecting existing output. Inspect `complete`, `errors`, and `skipped`
-in the UI before publishing. Folder-limit exhaustion means some descendants have
-not been enumerated. Listing is fully paginated by the adapter, so the file cap
-limits extraction work, not listing API calls.
-
-The CLI retains its single-account login store and English rules classifier. The
-web application adds per-user accounts, SQLite run records and the LLM classifier
-in live mode. Its login store is separate from the CLI's. OAuth uses the official
-Google authentication library; the scanning and planning core remains dependency-free.
-
-## Connector-backed scanner smoke test
-
-`node examples/connector-scan.ts <connector-snapshot.json>` replays actual text
-retrieved separately by the Codex Google Drive connector. The JSON input is an
-array of `{ file: { id, name, mimeType }, text }` records (or `error` for a failed
-read). Keep source snapshots outside the repository because they contain private
-document text. The script prints a report with character counts and SHA-256
-hashes rather than source text.
-
-This bridge uses a virtual selected-corpus root and raises the file cap to the
-snapshot size. It retains the 100,000-character limit and checks text delivery,
-source citations, error counts, completeness, and write-plan gating. Its fixed
-category and character-count summary are mechanical test output, not semantic
-extraction. It does not test live folder traversal, OAuth, an LLM, or publishing.
-Connector text fetches are best-effort; this test cannot prove that every native
-document tab or embedded object was exported completely.
-
-On 2026-09-12, paginated connector discovery found 42 native Google Docs and all
-42 text reads succeeded. The scanner accepted 40 nonempty sources; two empty
-documents produced errors and correctly blocked the write plan. All four core
-tests also passed. The local-only `connector-scan-report.json` contains per-document
-counts and hashes and is excluded from Git, along with connector snapshots, to
-keep private Drive metadata out of the repository. No Drive files were changed.
+For background context, see [HANDOFF.md](HANDOFF.md) and [FEASIBILITY.md](FEASIBILITY.md).
+Their historical implementation inventories may describe older checkouts; the
+current code and this README describe this branch's working scope.

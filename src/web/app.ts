@@ -77,7 +77,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
   }
   function job(run: Run, work: () => Promise<void>) {
     const promise = work().catch(error => {
-      // Components use sanitized errors. Never return raw Google/OpenAI payloads.
+      // Components use sanitized errors. Never return raw Google/OpenRouter payloads.
       run.status = 'failed';
       run.error = error instanceof Error ? error.message.slice(0, 500) : 'Run failed. Start a fresh preview.';
       repository.saveRun(run); repository.event(run.id, { type: 'failed', message: run.error });
@@ -186,7 +186,7 @@ export async function createWebApp(config: WebConfig, dependencies: {
         json(res, 200, { runs: repository.runs(owner).map(publicRun) }); return;
       }
       if (url.pathname === '/api/runs' && req.method === 'POST') {
-        if (!classify) throw new HttpError(503, 'Configure OPENAI_API_KEY for live semantic classification.');
+        if (!classify) throw new HttpError(503, 'Configure OPENROUTER_API_KEY for live semantic classification.');
         const input = await body(req);
         if (Object.keys(input).some(k => k !== 'folderId')) throw new HttpError(400, 'Only folderId is accepted');
         const folderId = required(input.folderId, 'folder ID');

@@ -4,24 +4,29 @@ import { authConfig, loginStore, googleLogin, disconnect } from './google.ts';
 import { startLogin } from './server.ts';
 
 async function initialize() {
+  const defaults = {
+    GOOGLE_CLIENT_ID: '', GOOGLE_CLIENT_SECRET: '',
+    GOOGLE_REDIRECT_URI: 'http://127.0.0.1:43821/oauth/callback',
+    BRAINO_MODE: 'demo', BRAINO_BASE_URL: 'http://127.0.0.1:43821',
+    BRAINO_HOST: '127.0.0.1', PORT: '43821', BRAINO_DATA_DIR: 'private-data/web',
+    OPENROUTER_API_KEY: '', OPENROUTER_MODEL: 'openai/gpt-4o-mini',
+  };
   let content: string;
   try { content = await readFile('.env', 'utf8'); }
   catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
     await writeFile('.env', [
-      'GOOGLE_CLIENT_ID=', 'GOOGLE_CLIENT_SECRET=',
-      'GOOGLE_REDIRECT_URI=http://127.0.0.1:43821/oauth/callback',
+      ...Object.entries(defaults).map(([name, value]) => `${name}=${value}`),
       `BRAINO_TOKEN_KEY=${randomBytes(32).toString('hex')}`, '',
     ].join('\n'), { flag: 'wx', mode: 0o600 });
-    console.log('Created .env with a local encryption key. Add your Google OAuth client ID and secret.');
+    console.log('Created .env. Add your Google OAuth credentials and OPENROUTER_API_KEY for live mode.');
     return;
   }
-  if (/^\s*BRAINO_TOKEN_KEY\s*=/m.test(content)) {
-    console.log('.env already contains BRAINO_TOKEN_KEY; existing configuration was preserved.');
-    return;
-  }
-  await appendFile('.env', `\nBRAINO_TOKEN_KEY=${randomBytes(32).toString('hex')}\n`, { mode: 0o600 });
-  console.log('Added a local encryption key to .env. Existing configuration was preserved.');
+  const missing = Object.entries(defaults).filter(([name]) => !new RegExp(`^\\s*${name}\\s*=`, 'm').test(content))
+    .map(([name, value]) => `${name}=${value}`);
+  if (!/^\s*BRAINO_TOKEN_KEY\s*=/m.test(content)) missing.push(`BRAINO_TOKEN_KEY=${randomBytes(32).toString('hex')}`);
+  if (missing.length) await appendFile('.env', `\n${missing.join('\n')}\n`, { mode: 0o600 });
+  console.log('Environment setup complete. Existing values preserved; missing settings added. Fill OPENROUTER_API_KEY locally for live AI scans.');
 }
 
 async function main() {

@@ -6,10 +6,10 @@ import { classifierCorpus } from './classifier-corpus.ts';
 const args = process.argv.slice(2);
 if (args.some(arg => arg !== '--llm' && arg !== '--strict')) throw new Error('Usage: node examples/evaluate-classifier.ts [--llm] [--strict]');
 const live = args.includes('--llm');
-const classify = live ? createLLMClassifier({ apiKey: process.env.OPENAI_API_KEY ?? '', model: process.env.OPENAI_MODEL }) : classifyByContent;
+const classify = live ? createLLMClassifier({ apiKey: process.env.OPENROUTER_API_KEY ?? '', model: process.env.OPENROUTER_MODEL }) : classifyByContent;
 let correct = 0;
 let unsafe = 0;
-console.log(live ? 'Live LLM evaluation (sends synthetic text to OpenAI; API charges apply).' : 'Offline keyword baseline. This does not measure LLM quality.');
+console.log(live ? 'Live LLM evaluation (sends synthetic text to OpenRouter; API charges apply).' : 'Offline keyword baseline. This does not measure LLM quality.');
 for (const sample of classifierCorpus) {
   const result = await classify({ file: { id: sample.id, name: sample.name, mimeType: MIME.doc }, text: sample.text });
   const match = result.categoryId === sample.expected;

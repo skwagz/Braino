@@ -331,7 +331,7 @@ function App() {
           </div>
           {session && !isDemo && !session.config.google && <div className="confirmation-note">Google login needs configuration on the server before you can connect.</div>}
           {session && !isDemo && !session.config.llm && <div className="confirmation-note">AI scanning needs an API key configured on the server.</div>}
-          {session && !isDemo && <div className="confirmation-note">Scanning sends text from your selected documents to OpenAI. Folder moves happen only after you approve a plan.</div>}
+          {session && !isDemo && <div className="confirmation-note">Scanning sends text from your selected documents to OpenRouter. Folder moves happen only after you approve a plan.</div>}
           {error && (
             <div className="error" role="alert">
               {error}

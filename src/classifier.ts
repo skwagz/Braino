@@ -1,7 +1,7 @@
 import { categories } from './structure.ts';
 import type { Classification, Classifier, CategoryId } from './structure.ts';
 
-export const DEFAULT_CLASSIFIER_MODEL = 'gpt-5.4-nano';
+export const DEFAULT_CLASSIFIER_MODEL = 'openai/gpt-4o-mini';
 class ClassifierError extends Error {}
 const MAX_TEXT_CHARS = 60_000;
 const MAX_RESPONSE_BYTES = 64_000;
@@ -44,7 +44,7 @@ function validate(value: unknown, text: string, model: string): Classification {
     throw new ClassifierError('LLM classification failed validation: invalid category or source evidence.');
   }
   return { categoryId: value.categoryId as CategoryId | null, reason: value.reason,
-    evidence: value.evidence as string[], method: `openai:${model}:v1` };
+    evidence: value.evidence as string[], method: `openrouter:${model}:v1` };
 }
 
 async function boundedJson(response: Response): Promise<unknown> {
@@ -68,30 +68,30 @@ async function boundedJson(response: Response): Promise<unknown> {
   } finally { reader.releaseLock(); }
 }
 
-/** Server-only adapter. Source content goes to OpenAI; never expose this key in a client. */
+/** Server-only adapter. Source content goes to OpenRouter; never expose this key in a client. */
 export function createLLMClassifier(options: {
   apiKey: string; model?: string; fetch?: typeof globalThis.fetch; timeoutMs?: number;
 }): Classifier {
-  if (!options.apiKey?.trim()) throw new ClassifierError('Set OPENAI_API_KEY to use LLM classification.');
+  if (!options.apiKey?.trim()) throw new ClassifierError('Set OPENROUTER_API_KEY to use LLM classification.');
   const model = options.model ?? DEFAULT_CLASSIFIER_MODEL;
-  if (!/^[a-zA-Z0-9._:-]{1,100}$/.test(model)) throw new ClassifierError('Invalid OPENAI_MODEL.');
+  if (!/^[a-zA-Z0-9._:-]+\/[a-zA-Z0-9._:/-]{1,150}$/.test(model)) throw new ClassifierError('Invalid OPENROUTER_MODEL; use a provider/model identifier.');
   const timeoutMs = options.timeoutMs ?? 45_000;
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 120_000) throw new ClassifierError('Invalid LLM timeout.');
   const request = options.fetch ?? globalThis.fetch;
   return async ({ text }) => {
     if (typeof text !== 'string' || text.length > MAX_TEXT_CHARS) throw new ClassifierError('Document exceeds the LLM text limit (60000 characters).');
-    if (!text.trim()) return { categoryId: null, reason: 'Empty document; review needed.', evidence: [], method: `openai:${model}:v1` };
+    if (!text.trim()) return { categoryId: null, reason: 'Empty document; review needed.', evidence: [], method: `openrouter:${model}:v1` };
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     let payload: unknown;
     try {
-      const response = await request('https://api.openai.com/v1/responses', {
+      const response = await request('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST', signal: controller.signal, redirect: 'error',
         headers: { Authorization: `Bearer ${options.apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model, store: false, instructions,
-          input: [{ role: 'user', content: JSON.stringify({ documentText: text }) }],
-          max_output_tokens: 2048,
-          text: { format: { type: 'json_schema', name: 'braino_classification', strict: true, schema } },
+        body: JSON.stringify({ model,
+          messages: [{ role: 'system', content: instructions }, { role: 'user', content: JSON.stringify({ documentText: text }) }],
+          max_tokens: 2048, provider: { require_parameters: true },
+          response_format: { type: 'json_schema', json_schema: { name: 'braino_classification', strict: true, schema } },
         }),
       });
       if (!response.ok) {
@@ -105,15 +105,15 @@ export function createLLMClassifier(options: {
       if (error instanceof ClassifierError) throw error;
       throw new ClassifierError('LLM request could not complete; check the network and retry.');
     } finally { clearTimeout(timer); }
-    if (!object(payload) || payload.status !== 'completed' || !Array.isArray(payload.output)) {
+    if (!object(payload) || payload.error || !Array.isArray(payload.choices) || payload.choices.length !== 1) {
       throw new ClassifierError('LLM response did not complete; retry the scan.');
     }
-    const content = payload.output.flatMap(item => object(item) && item.type === 'message' && item.role === 'assistant' && Array.isArray(item.content) ? item.content : []);
-    if (content.some(item => object(item) && item.type === 'refusal')) throw new ClassifierError('LLM declined this document; review it manually.');
-    const outputs = content.filter(item => object(item) && item.type === 'output_text');
-    if (outputs.length !== 1 || !object(outputs[0]) || typeof outputs[0].text !== 'string') throw new ClassifierError('LLM returned no single classification.');
+    const choice = payload.choices[0];
+    if (!object(choice) || choice.finish_reason !== 'stop' || !object(choice.message)) throw new ClassifierError('LLM response did not complete; retry the scan.');
+    if (choice.message.refusal) throw new ClassifierError('LLM declined this document; review it manually.');
+    if (typeof choice.message.content !== 'string') throw new ClassifierError('LLM returned no single classification.');
     let result: unknown;
-    try { result = JSON.parse(outputs[0].text); }
+    try { result = JSON.parse(choice.message.content); }
     catch { throw new ClassifierError('LLM returned malformed classification JSON.'); }
     return validate(result, text, model);
   };
