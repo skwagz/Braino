@@ -1,5 +1,7 @@
 # Braino scanning and sorting core
 
+Project context: [product brief](HANDOFF.md), [feasibility research and validation plan](FEASIBILITY.md), and [shared agent instructions](AGENTS.md). Read the research status update before relying on its dated implementation audit.
+
 ## Run against Google Drive
 
 Node 24+ is required. Follow the [Google login setup](docs/google-login.md) to
