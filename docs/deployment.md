@@ -12,9 +12,9 @@ npm ci
 npm run start
 ```
 
-Check http://127.0.0.1:43821/health. This is an API-only server. The default
-`BRAINO_MODE=demo` uses synthetic documents for backend testing without Google
-or model requests. The existing React dashboard integration remains pending.
+Check http://127.0.0.1:43821/health. The server serves the dashboard and API after `npm run build`. Live mode is the
+default and refuses startup without Google OAuth, the token key and OpenRouter
+credentials. Set `BRAINO_MODE=demo` explicitly for offline development only.
 
 ## Configure live access once
 
@@ -35,9 +35,8 @@ or model requests. The existing React dashboard integration remains pending.
    content to the API and can incur usage charges.
 5. Add `BRAINO_MODE=live` and
    `BRAINO_BASE_URL=http://127.0.0.1:43821` to `.env`, restart `npm run start`,
-   after configuration. Frontend session initialization, CSRF handling and Google
-   login controls still need integration in the existing dashboard. Tokens and
-   client/API secrets stay in the backend.
+   after configuration. The dashboard handles session initialization, CSRF and
+   Google login. Tokens and client/API secrets stay in the backend.
 
 The Google grant includes `openid`, `email` and full `drive` access because
 Braino organizes existing files. Choosing a folder constrains Braino's scan,
@@ -88,7 +87,7 @@ origin. Do not trust arbitrary forwarded headers to choose the public origin.
 
 | Setting | Purpose |
 | --- | --- |
-| `BRAINO_MODE` | `demo` by default; `live` enables real integrations |
+| `BRAINO_MODE` | `live` by default; `demo` is opt-in for development |
 | `BRAINO_BASE_URL` | Exact browser origin; HTTPS for hosted use |
 | `BRAINO_HOST` | Bind address; local default `127.0.0.1`, container `0.0.0.0` |
 | `PORT` | Listening port, default `43821` |
@@ -129,3 +128,12 @@ origin. Do not trust arbitrary forwarded headers to choose the public origin.
 
 Real OAuth, paid model calls and a hosted deployment require user-provided
 credentials and hosting configuration; offline tests cannot validate them.
+
+## Production startup
+
+Set `NODE_ENV=production`, `BRAINO_MODE=live` and an HTTPS `BRAINO_BASE_URL`.
+Startup rejects demo mode, HTTP origins and missing live credentials. Run
+`npm run build` before starting. Set the extension `config.js` backend origin to
+that same public HTTPS origin before distribution. The checked-in localhost
+address is for local use and is not a hosted service. Verify Google sign-in,
+OpenRouter classification and an approved apply with a test folder before launch.

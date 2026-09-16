@@ -14,7 +14,7 @@ workspace. Existing signed-in sessions are reused by the dashboard.
 4. Pin Braino using Chrome's extensions menu. Click it to open your workspace.
 
 The default server is `http://127.0.0.1:43821`. Keep it running while using the
-extension. Demo mode works without credentials; real Google sign-in requires the
+extension. Live mode is the default. Explicit demo mode works without credentials; real Google sign-in requires the
 backend's Google OAuth and OpenRouter configuration. Connecting Drive to Codex
 does not authenticate Braino.
 

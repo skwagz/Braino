@@ -7,7 +7,7 @@ async function initialize() {
   const defaults = {
     GOOGLE_CLIENT_ID: '', GOOGLE_CLIENT_SECRET: '',
     GOOGLE_REDIRECT_URI: 'http://127.0.0.1:43821/oauth/callback',
-    BRAINO_MODE: 'demo', BRAINO_BASE_URL: 'http://127.0.0.1:43821',
+    BRAINO_MODE: 'live', BRAINO_BASE_URL: 'http://127.0.0.1:43821',
     BRAINO_HOST: '127.0.0.1', PORT: '43821', BRAINO_DATA_DIR: 'private-data/web',
     OPENROUTER_API_KEY: '', OPENROUTER_MODEL: 'openai/gpt-4o-mini',
   };

@@ -26,7 +26,8 @@ Open http://127.0.0.1:43821. The backend serves both the dashboard and API.
 Rebuild after changing frontend code; restart after changing backend code or `.env`.
 Docker is optional and is not needed for these commands.
 
-The default `BRAINO_MODE=demo` uses synthetic documents and keyword rules.
+Live mode is the default and requires Google OAuth and OpenRouter credentials.
+For explicit offline testing, set `BRAINO_MODE=demo`; it uses synthetic documents and keyword rules.
 It does not contact Google or the LLM and does not modify your real Drive.
 
 ## Use the dashboard
